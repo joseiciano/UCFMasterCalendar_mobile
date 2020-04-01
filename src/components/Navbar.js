@@ -1,24 +1,44 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
 import TextButton from './TextButton';
 
-const Navbar = () => {
+const Navbar = ({leftText, rightText1, rightText2}) => {
   return (
-    <View style={{backgroundColor: 'teal', flexDirection: 'row'}}>
-      <Text style={{color: 'red', width: '50%'}}>Knightro</Text>
-
-      <TextButton
-        text={'Log in'}
-        btnStyle={{color: 'red'}}
-        onPress={() => console.log('dank')}
-      />
-      <TextButton
-        text={'Sign Up'}
-        btnStyle={{color: 'red', marginLeft: '10px'}}
-        onPress={() => console.log('dank')}
-      />
+    <View style={styles.navBar}>
+      <Text style={styles.nameBtn}>{leftText}</Text>
+      <Text onPress={() => console.log('login')} style={styles.login}>
+        {rightText1}
+      </Text>
+      <Text onPress={() => console.log('login')} style={styles.register}>
+        {rightText2}
+      </Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  navBar: {
+    backgroundColor: 'grey',
+    height: 50,
+    flexDirection: 'row',
+  },
+  nameBtn: {
+    color: 'red',
+    backgroundColor: 'grey',
+    width: '20%',
+  },
+  login: {
+    color: 'red',
+    backgroundColor: 'teal',
+    marginLeft: '40%',
+    width: '15%',
+  },
+  register: {
+    color: 'blue',
+    backgroundColor: 'red',
+    marginLeft: '5%',
+    width: '15%',
+  },
+});
 
 export default Navbar;
