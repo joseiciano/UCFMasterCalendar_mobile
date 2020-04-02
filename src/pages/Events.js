@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Button, ScrollView, StyleSheet} from 'react-native';
 import {Lister} from '../components/Lister.js';
-
 import eventPic from '../assets/images/eventPic.png';
 
 export default class Events extends Component {
@@ -29,7 +28,7 @@ export default class Events extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Lister title={'Events'} type="Events" list={this.state.events} />
+        <Lister title={'Events'} type="eventspage" list={this.state.events} />
       </View>
     );
   }
