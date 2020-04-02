@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Button,
-  SafeAreaView,
-  TouchableHighlight,
-} from 'react-native';
+import {Text, TouchableHighlight} from 'react-native';
 
 const TextButton = ({text, highlightStyle, textStyle, onPress}) => {
   return (
@@ -15,4 +9,4 @@ const TextButton = ({text, highlightStyle, textStyle, onPress}) => {
   );
 };
 
-export default TextButton;
+export {TextButton};

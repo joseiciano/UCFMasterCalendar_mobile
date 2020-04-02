@@ -1,34 +1,14 @@
 import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  ScrollView,
-  TouchableHighlight,
-  StyleSheet,
-} from 'react-native';
-import ScrollList from '../components/ScrollList';
-// import {Container, Header, Content, Card, CardItem, Button} from 'native-base';
-import Navbar from '../components/Navbar';
-import {Card, Button} from 'react-native-elements';
-import {Item} from 'native-base';
+import {View, ScrollView, StyleSheet, Text} from 'react-native';
+import {Button} from 'react-native-elements';
 
-// const DATA = [{id: '1', title: 'dank'}];
-const Logo = () => {
-  return (
-    <View style={{flex: 1, height: '100%', backgroundColor: 'grey'}}>
-      <Text>Logo</Text>
-    </View>
-  );
-};
-
-const MainImage = () => {
-  return (
-    <View style={{backgroundColor: 'teal', height: 500}}>
-      <Text>HALLO</Text>
-    </View>
-  );
-};
+import clubPic from '../assets/images/clubPic.jpg';
+import eventPic from '../assets/images/eventPic.png';
+import techHeart from '../assets/images/techHeart.png';
+import {Navbar} from '../components/Navbar';
+import {ImageShower} from '../components/ImageShower';
+import {EventCard} from '../components/EventCard';
+import {ClubCard} from '../components/ClubCard';
 
 export default class Home extends Component {
   constructor(props) {
@@ -42,14 +22,14 @@ export default class Home extends Component {
   componentDidMount() {
     this.setState({
       events: [
-        {id: '1', title: 'Event1'},
-        {id: '2', title: 'Event2'},
-        {id: '3', title: 'Event3'},
+        {id: '1', title: 'Event1', image: eventPic},
+        {id: '2', title: 'Event2', image: eventPic},
+        {id: '3', title: 'Event3', image: eventPic},
       ],
       clubs: [
-        {id: '1', title: 'Club1'},
-        {id: '2', title: 'Club2'},
-        {id: '3', title: 'Club3'},
+        {id: '1', title: 'Club1', image: clubPic},
+        {id: '2', title: 'Clcub2', image: clubPic},
+        {id: '3', title: 'Club3', image: clubPic},
       ],
     });
   }
@@ -62,22 +42,57 @@ export default class Home extends Component {
           <Navbar
             leftText="Knightro"
             rightText1="Log in"
-            rightText2="Register"
+            rightText1OnPress={() => console.log('Log in')}
+            rightText2="Sign up"
+            rightText2OnPress={() => console.log('Sign up')}
           />
-          <MainImage />
-          <ScrollList
-            items={this.state.events}
-            buttonTitle={'Show all events'}
-            buttonStyle={{marginTop: '3%'}}
-            buttonOnPress={() => history.push('/Events')}
+
+          <ImageShower
+            image={techHeart}
+            backgroundStyle={styles.imageBackground}
+            headerText="Something For Everyone"
+            headerStyle={styles.imageHeader}
+            upperBodyText="Just bring an open mind and an instational desire to learn, and we'll take care of the rest."
+            upperBodyStyle={styles.imageText}
+            buttonText="Join Knightro"
+            buttonOnPress={() => console.log('Join Knightro')}
           />
-          <ScrollList
-            items={this.state.clubs}
-            buttonTitle={'Show all clubs'}
-            buttonStyle={{marginTop: '3%'}}
-            buttonOnPress={() => history.push('/Clubs')}
+
+          <View style={styles.description}>
+            <Text style={styles.descriptionTitle}>Upcoming events</Text>
+            <Text style={styles.descriptionSubtitle}>
+              See what's happening soon in your area.
+            </Text>
+          </View>
+
+          {this.state.events.map(event => (
+            <EventCard key={event.id} event={event} />
+          ))}
+
+          <Button
+            buttonStyle={styles.listButton}
+            title="View All Events"
+            titleStyle={{color: '#03A9F4'}}
+            onPress={() => history.push('/Events')}
           />
-          <View style={{marginTop: 30}} />
+
+          <View style={styles.description}>
+            <Text style={styles.descriptionTitle}>Technology Clubs</Text>
+            <Text style={styles.descriptionSubtitle}>
+              Learn about UCF's technology clubs
+            </Text>
+          </View>
+
+          {this.state.clubs.map(club => (
+            <ClubCard key={club.id} club={club} />
+          ))}
+          <Button
+            buttonStyle={styles.listButton}
+            title="View All Clubs"
+            titleStyle={{color: '#03A9F4'}}
+            onPress={() => history.push('/Clubs')}
+          />
+          <View style={{marginBottom: 20}} />
         </ScrollView>
       </View>
     );
@@ -85,26 +100,46 @@ export default class Home extends Component {
 }
 
 const styles = StyleSheet.create({
-  navBar: {
-    backgroundColor: 'grey',
-    height: '3.5%',
-    flexDirection: 'row',
+  imageBackground: {
+    backgroundColor: '#D0F5F7',
+    borderRadius: 0,
+    height: 600,
   },
-  nameBtn: {
-    color: 'red',
-    backgroundColor: 'grey',
-    width: '20%',
+  imageHeader: {
+    marginTop: '12%',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 30,
+    color: '#1E90FF',
+    marginBottom: '5%',
   },
-  login: {
-    color: 'red',
-    backgroundColor: 'teal',
-    marginLeft: '40%',
-    width: '15%',
+  imageText: {
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#1E90FF',
+    width: '62%',
+    marginLeft: '17%',
   },
-  register: {
-    color: 'blue',
-    backgroundColor: 'red',
-    marginLeft: '5%',
-    width: '15%',
+  listButton: {
+    borderRadius: 8,
+    marginTop: 20,
+    left: 16,
+    width: '93%',
+    backgroundColor: '#F8F8FF',
+    borderColor: '#03A9F4',
+    borderWidth: 1.5,
+    borderRadius: 10,
+  },
+  description: {
+    marginLeft: 25,
+    marginTop: 30,
+    marginBottom: 2,
+  },
+  descriptionTitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  descriptionSubtitle: {
+    fontSize: 16,
   },
 });

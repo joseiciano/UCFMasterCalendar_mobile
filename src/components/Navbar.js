@@ -1,15 +1,20 @@
 import React from 'react';
-import {View, Text, StyleSheet, TouchableHighlight} from 'react-native';
-import TextButton from './TextButton';
+import {View, Text, StyleSheet} from 'react-native';
 
-const Navbar = ({leftText, rightText1, rightText2}) => {
+const Navbar = ({
+  leftText,
+  rightText1,
+  rightText1OnPress,
+  rightText2,
+  rightText2OnPress,
+}) => {
   return (
     <View style={styles.navBar}>
       <Text style={styles.nameBtn}>{leftText}</Text>
-      <Text onPress={() => console.log('login')} style={styles.login}>
+      <Text onPress={rightText1OnPress} style={styles.login}>
         {rightText1}
       </Text>
-      <Text onPress={() => console.log('login')} style={styles.register}>
+      <Text onPress={rightText2OnPress} style={styles.register}>
         {rightText2}
       </Text>
     </View>
@@ -18,27 +23,40 @@ const Navbar = ({leftText, rightText1, rightText2}) => {
 
 const styles = StyleSheet.create({
   navBar: {
-    backgroundColor: 'grey',
-    height: 50,
+    backgroundColor: '#F5F5F5',
+    height: '2%',
     flexDirection: 'row',
+    flex: 1,
+  },
+  nameWrapper: {
+    width: '40%',
+    backgroundColor: 'grey',
   },
   nameBtn: {
-    color: 'red',
-    backgroundColor: 'grey',
-    width: '20%',
+    color: 'black',
+    textAlign: 'center',
+    fontFamily: 'Pacifico',
+    fontSize: 33,
+    bottom: '1%',
+    marginLeft: '2%',
   },
   login: {
-    color: 'red',
-    backgroundColor: 'teal',
-    marginLeft: '40%',
-    width: '15%',
+    color: '#C0C0C0',
+    marginLeft: '25%',
+    textAlign: 'center',
+    fontSize: 20,
+    marginTop: '4.5%',
+    height: '60%',
   },
   register: {
-    color: 'blue',
-    backgroundColor: 'red',
+    color: '#C0C0C0',
     marginLeft: '5%',
-    width: '15%',
+    width: '18%',
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: '4.5%',
+    height: '60%',
   },
 });
 
-export default Navbar;
+export {Navbar};
