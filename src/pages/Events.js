@@ -12,17 +12,13 @@ export default class Events extends Component {
   }
 
   componentDidMount() {
-    console.log('pepega');
-    this.setState(
-      {
-        events: [
-          {id: '1', title: 'Event1', image: eventPic},
-          {id: '2', title: 'Event2', image: eventPic},
-          {id: '3', title: 'Event3', image: eventPic},
-        ],
-      },
-      () => console.log('red', this.state.events),
-    );
+    this.setState({
+      events: [
+        {id: '1', title: 'Event1', image: eventPic},
+        {id: '2', title: 'Event2', image: eventPic},
+        {id: '3', title: 'Event3', image: eventPic},
+      ],
+    });
   }
 
   render() {

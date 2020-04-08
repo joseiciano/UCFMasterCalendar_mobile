@@ -17,24 +17,17 @@ const ImageShower = ({
 }) => {
   return (
     <View style={backgroundStyle}>
-      <View style={{marginLeft: '5%', width: '90%'}}>
+      <View style={styles.viewStyle}>
         {headerText && <Text style={headerStyle}>{headerText}</Text>}
         {upperBodyText && <Text style={upperBodyStyle}>{upperBodyText}</Text>}
       </View>
 
-      <Image source={image} style={{width: windowWidth, height: '45%'}} />
+      <Image source={image} style={styles.imageStyle} />
 
       <Button
-        buttonStyle={{
-          width: '95%',
-          height: '25%',
-          borderRadius: 10,
-          backgroundColor: '#87CEEB',
-          left: '7%',
-          marginTop: '10%',
-        }}
+        buttonStyle={styles.buttonStyle}
         title={buttonText}
-        titleStyle={{color: '#1E90FF'}}
+        titleStyle={styles.titleStyle}
         onPress={buttonOnPress}
       />
     </View>
@@ -42,3 +35,25 @@ const ImageShower = ({
 };
 
 export {ImageShower};
+
+const styles = {
+  viewStyle: {
+    marginLeft: '5%',
+    width: '90%',
+  },
+  imageStyle: {
+    width: windowWidth,
+    height: '45%',
+  },
+  buttonStyle: {
+    width: '95%',
+    height: '25%',
+    borderRadius: 10,
+    backgroundColor: '#87CEEB',
+    left: '7%',
+    marginTop: '10%',
+  },
+  titleStyle: {
+    color: '#1E90FF',
+  },
+};

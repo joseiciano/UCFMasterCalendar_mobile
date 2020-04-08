@@ -19,7 +19,7 @@ class Lister extends Component {
         {id: '1', type: 'navbar'},
         {id: '2', type: 'title'},
         {id: '3', type: 'searchbar'},
-        {id: '4', type: this.props.title},
+        {id: '4', type: this.props.type},
         {id: '5', type: 'endpadding'},
       ],
     });
@@ -40,7 +40,9 @@ class Lister extends Component {
                     rightText1="Log in"
                     rightText1OnPress={() => console.log('Log in')}
                     rightText2="Sign up"
-                    rightText2OnPress={() => console.log('Sign up')}
+                    rightText2OnPress={() => {
+                      console.log('Sign up');
+                    }}
                   />
                 );
               case 'title':
@@ -59,7 +61,6 @@ class Lister extends Component {
                   />
                 );
               case 'events':
-                console.log('In events');
                 return this.props.list.map(event => (
                   <EventCard key={event.id} event={event} />
                 ));
@@ -68,7 +69,6 @@ class Lister extends Component {
                   <ClubCard key={club.id} club={club} />
                 ));
               case 'eventspage':
-                console.log('in eventspage');
                 return this.props.list.map(event => (
                   <EventPageCard key={event.id} />
                 ));
