@@ -59,6 +59,7 @@ class Lister extends Component {
                   />
                 );
               case 'events':
+                console.log('In events');
                 return this.props.list.map(event => (
                   <EventCard key={event.id} event={event} />
                 ));
@@ -67,6 +68,7 @@ class Lister extends Component {
                   <ClubCard key={club.id} club={club} />
                 ));
               case 'eventspage':
+                console.log('in eventspage');
                 return this.props.list.map(event => (
                   <EventPageCard key={event.id} />
                 ));

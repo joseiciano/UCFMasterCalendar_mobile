@@ -4,7 +4,7 @@ import {Button} from 'react-native-elements';
 
 import clubPic from '../assets/images/clubPic.jpg';
 import eventPic from '../assets/images/eventPic.png';
-import techHeart from '../assets/images/techHeart.png';
+import techHeart from '../assets/images/smallHeart.png';
 import {Navbar} from '../components/Navbar';
 import {ImageShower} from '../components/ImageShower';
 import {EventCard} from '../components/EventCard';
@@ -52,7 +52,7 @@ export default class Home extends Component {
             backgroundStyle={styles.imageBackground}
             headerText="Something For Everyone"
             headerStyle={styles.imageHeader}
-            upperBodyText="Just bring an open mind and an instational desire to learn, and we'll take care of the rest."
+            upperBodyText="Just bring an open mind and an insatiable desire to learn, and we'll take care of the rest."
             upperBodyStyle={styles.imageText}
             buttonText="Join Knightro"
             buttonOnPress={() => console.log('Join Knightro')}
@@ -109,21 +109,22 @@ const styles = StyleSheet.create({
     marginTop: '12%',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 30,
-    color: '#1E90FF',
+    fontSize: 40,
+    color: '#178B99',
     marginBottom: '5%',
   },
   imageText: {
     textAlign: 'center',
-    fontSize: 18,
-    color: '#1E90FF',
+    fontSize: 17,
+    color: '#178B99',
+    fontWeight: 'bold',
     width: '62%',
     marginLeft: '17%',
   },
   listButton: {
     borderRadius: 8,
     marginTop: 20,
-    left: 16,
+    left: 20,
     width: '93%',
     backgroundColor: '#F8F8FF',
     borderColor: '#03A9F4',
