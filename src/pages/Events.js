@@ -2,12 +2,40 @@ import React, {Component} from 'react';
 import {View, Text, Button, ScrollView, StyleSheet} from 'react-native';
 import {Lister} from '../components/Lister.js';
 import eventPic from '../assets/images/eventPic.png';
+import axios from 'axios';
+import * as firebase from 'firebase/app';
+import {ModalForm} from '../components/ModalForm';
+
+/*
+GET all clubs: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs
+POST create club: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs
+GET an event: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/:club/events/:id
+GET all events: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/:club/events
+*/
+
+const ModalInfo = ({isVisible, toggle}) => {
+  return (
+    <Modal
+      isVisible={isVisible}
+      animationType="slide"
+      transparent={true}
+      useNativeDriver={true}
+      hideModalContentWhileAnimating={true}
+      onBackButtonPress={toggle}
+      onBackdropPress={toggle}>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
+        <Text>Hello</Text>
+      </View>
+    </Modal>
+  );
+};
 
 export default class Events extends Component {
   constructor(props) {
     super(props);
     this.state = {
       events: [],
+      showModal: false,
     };
   }
 
@@ -24,7 +52,16 @@ export default class Events extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Lister title={'Events'} type="eventspage" list={this.state.events} />
+        <ModalForm
+          isVisible={this.state.showModal}
+          toggle={() => this.setState({showModal: !this.state.showModal})}
+        />
+        <Lister
+          title={'Events'}
+          type="eventspage"
+          buttonPress={() => this.setState({showModal: !this.state.showModal})}
+          list={this.state.events}
+        />
       </View>
     );
   }

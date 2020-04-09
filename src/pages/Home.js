@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {View, ScrollView, StyleSheet, Text} from 'react-native';
+import axios from 'axios';
+import * as firebase from 'firebase/app';
 import {Button} from 'react-native-elements';
 
 import clubPic from '../assets/images/clubPic.jpg';
@@ -9,6 +11,24 @@ import {Navbar} from '../components/Navbar';
 import {ImageShower} from '../components/ImageShower';
 import {EventCard} from '../components/EventCard';
 import {ClubCard} from '../components/ClubCard';
+
+/*
+
+Base URL: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1
+Create a club (POST): /users/:user/clubs
+Get all clubs (GET): /clubs
+Update a club (PUT): /users/:user/clubs/:club
+Delete a club (DELETE): /users/:user/clubs/:club
+Create an event (POST): /users/:user/clubs/:club/events
+Get an event (GET): /events/:event
+Get all events (GET): /events
+Update an event (PUT): /users/:user/clubs/:club/events/:event
+Delete an event (DELETE): /users/:user/clubs/:club/events/:event
+
+*/
+
+const URL =
+  'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
 
 export default class Home extends Component {
   constructor(props) {
@@ -20,6 +40,15 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
+    // Get the initial list of events
+    // axios
+    //   .get(`${URL}/events`)
+    //   .then(res => {
+    //     for (event in res.data) {
+    //       console.log('event ', event);
+    //     }
+    //   })
+    //   .catch(e => console.log('error obtaining data', e));
     this.setState({
       events: [
         {id: '1', title: 'Event1', image: eventPic},

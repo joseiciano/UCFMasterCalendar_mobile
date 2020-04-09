@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, ScrollView, TextInput, FlatList} from 'react-native';
 import {Navbar} from '../components/Navbar';
 import {EventPageCard, EventCard} from '../components/EventCard';
+import {Button} from 'react-native-elements';
 import {ClubCard} from '../components/ClubCard';
 
 class Lister extends Component {
@@ -17,7 +18,11 @@ class Lister extends Component {
     this.setState({
       items: [
         {id: '1', type: 'navbar'},
-        {id: '2', type: 'title'},
+        {
+          id: '2',
+          type: 'title',
+          button: this.props.buttonPress ? this.props.buttonPress : null,
+        },
         {id: '3', type: 'searchbar'},
         {id: '4', type: this.props.type},
         {id: '5', type: 'endpadding'},
@@ -49,6 +54,14 @@ class Lister extends Component {
                 return (
                   <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{this.props.title}</Text>
+                    {item.button && (
+                      <Button
+                        buttonStyle={styles.addButton}
+                        title={'Create'}
+                        titleStyle={{color: '#03A9F4'}}
+                        onPress={item.button}
+                      />
+                    )}
                   </View>
                 );
               case 'searchbar':
@@ -92,6 +105,7 @@ const styles = {
   title: {
     fontWeight: 'bold',
     fontSize: 40,
+    bottom: '2%',
   },
   searchbar: {
     borderColor: 'black',
@@ -100,6 +114,14 @@ const styles = {
     marginLeft: '4%',
     borderRadius: 10,
     backgroundColor: 'white',
+  },
+  addButton: {
+    borderColor: '#03A9F4',
+    borderWidth: 1.5,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginLeft: '47%',
+    width: '40%',
   },
 };
 

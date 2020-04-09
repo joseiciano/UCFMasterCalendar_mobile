@@ -10,6 +10,7 @@ import {Dimensions} from 'react-native';
 const windowWidth = Dimensions.get('window').width;
 
 const EventPageCard = ({event}) => {
+  // const {title, club, date, time, location} = event;
   return (
     <Card containerStyle={{borderRadius: 15, height: 300}}>
       <View style={{marginLeft: 5}}>
@@ -28,27 +29,9 @@ const EventPageCard = ({event}) => {
             onPress={() => console.log('pressed icon')}
             style={{color: 'black', top: '4%'}}
           />
-          <Text
-            style={{
-              marginTop: 20,
-              marginBottom: 20,
-              fontSize: 16,
-              left: '15%',
-            }}>
-            Wednesday, February 20th, 2020
-          </Text>
+          <Text style={ePageStyles.date}>Wednesday, February 20th, 2020</Text>
         </View>
-        <Text
-          style={{
-            marginTop: '2%',
-            marginBottom: 0,
-            fontSize: 16,
-            marginLeft: 20,
-            top: -25,
-            left: 52,
-          }}>
-          5:30 PM to 8:30 PM
-        </Text>
+        <Text style={ePageStyles.time}>5:30 PM to 8:30 PM</Text>
         <View style={{flexDirection: 'row'}}>
           <Ionicons
             name="md-pin"
@@ -56,16 +39,7 @@ const EventPageCard = ({event}) => {
             onPress={() => console.log('pressed icon')}
             style={{color: 'black'}}
           />
-          <Text
-            style={{
-              marginTop: 20,
-              marginBottom: 10,
-              fontSize: 16,
-              left: 15,
-              bottom: 10,
-            }}>
-            HEdC 450
-          </Text>
+          <Text style={ePageStyles.location}>HEC 450</Text>
         </View>
       </View>
     </Card>
@@ -73,6 +47,7 @@ const EventPageCard = ({event}) => {
 };
 
 const EventCard = ({event}) => {
+  // const {title, club, date, time, location} = event;
   return (
     <Card containerStyle={{borderRadius: 15, height: 300}}>
       <View style={{marginLeft: 5}}>
@@ -135,9 +110,25 @@ const ePageStyles = {
     fontWeight: 'bold',
   },
   date: {
-    marginTop: 10,
-    color: '#1198AB',
-    fontWeight: 'bold',
+    marginTop: 20,
+    marginBottom: 20,
+    fontSize: 18,
+    left: '15%',
+  },
+  time: {
+    marginTop: '2%',
+    marginBottom: 0,
+    fontSize: 18,
+    marginLeft: 20,
+    top: -25,
+    left: '5%',
+  },
+  location: {
+    marginTop: 14,
+    marginBottom: 10,
+    fontSize: 18,
+    left: 15,
+    bottom: 10,
   },
   buttonWrapper: {
     flexDirection: 'row',
