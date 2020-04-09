@@ -66,8 +66,8 @@ export default class Home extends Component {
   render() {
     const {history} = this.props;
     return (
-      <View style={{flex: 1}}>
-        <ScrollView style={{flex: 0.8}}>
+      <View style={{flex: 1, height: '100%'}}>
+        <ScrollView style={{flex: 1}}>
           <Navbar
             leftText="Knightro"
             rightText1="Log in"
@@ -76,52 +76,54 @@ export default class Home extends Component {
             rightText2OnPress={() => console.log('Sign up')}
           />
 
-          <ImageShower
-            image={techHeart}
-            backgroundStyle={styles.imageBackground}
-            headerText="Something For Everyone"
-            headerStyle={styles.imageHeader}
-            upperBodyText="Just bring an open mind and an insatiable desire to learn, and we'll take care of the rest."
-            upperBodyStyle={styles.imageText}
-            buttonText="Join Knightro"
-            buttonOnPress={() => console.log('Join Knightro')}
-          />
+          <View style={{flex: 1}}>
+            <ImageShower
+              image={techHeart}
+              backgroundStyle={styles.imageBackground}
+              headerText="Something For Everyone"
+              headerStyle={styles.imageHeader}
+              upperBodyText="Just bring an open mind and an insatiable desire to learn, and we'll take care of the rest."
+              upperBodyStyle={styles.imageText}
+              buttonText="Join Knightro"
+              buttonOnPress={() => console.log('Join Knightro')}
+            />
 
-          <View style={styles.description}>
-            <Text style={styles.descriptionTitle}>Upcoming events</Text>
-            <Text style={styles.descriptionSubtitle}>
-              See what's happening soon in your area.
-            </Text>
+            <View style={styles.description}>
+              <Text style={styles.descriptionTitle}>Upcoming events</Text>
+              <Text style={styles.descriptionSubtitle}>
+                See what's happening soon in your area.
+              </Text>
+            </View>
+
+            {this.state.events.map(event => (
+              <EventCard key={event.id} event={event} />
+            ))}
+
+            <Button
+              buttonStyle={styles.listButton}
+              title="View All Events"
+              titleStyle={{color: '#03A9F4'}}
+              onPress={() => history.push('/Events')}
+            />
+
+            <View style={styles.description}>
+              <Text style={styles.descriptionTitle}>Technology Clubs</Text>
+              <Text style={styles.descriptionSubtitle}>
+                Learn about UCF's technology clubs
+              </Text>
+            </View>
+
+            {this.state.clubs.map(club => (
+              <ClubCard key={club.id} club={club} />
+            ))}
+            <Button
+              buttonStyle={styles.listButton}
+              title="View All Clubs"
+              titleStyle={{color: '#03A9F4'}}
+              onPress={() => history.push('/Clubs')}
+            />
+            <View style={{marginTop: '5%'}} />
           </View>
-
-          {this.state.events.map(event => (
-            <EventCard key={event.id} event={event} />
-          ))}
-
-          <Button
-            buttonStyle={styles.listButton}
-            title="View All Events"
-            titleStyle={{color: '#03A9F4'}}
-            onPress={() => history.push('/Events')}
-          />
-
-          <View style={styles.description}>
-            <Text style={styles.descriptionTitle}>Technology Clubs</Text>
-            <Text style={styles.descriptionSubtitle}>
-              Learn about UCF's technology clubs
-            </Text>
-          </View>
-
-          {this.state.clubs.map(club => (
-            <ClubCard key={club.id} club={club} />
-          ))}
-          <Button
-            buttonStyle={styles.listButton}
-            title="View All Clubs"
-            titleStyle={{color: '#03A9F4'}}
-            onPress={() => history.push('/Clubs')}
-          />
-          <View style={{marginBottom: 20}} />
         </ScrollView>
       </View>
     );
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
   listButton: {
     borderRadius: 8,
     marginTop: 20,
-    left: 20,
+    left: '24%',
     width: '93%',
     backgroundColor: '#F8F8FF',
     borderColor: '#03A9F4',
@@ -162,7 +164,7 @@ const styles = StyleSheet.create({
   },
   description: {
     marginLeft: 25,
-    marginTop: 30,
+    marginTop: '8%',
     marginBottom: 2,
   },
   descriptionTitle: {

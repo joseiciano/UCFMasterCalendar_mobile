@@ -173,8 +173,8 @@ export {ModalForm};
 const styles = {
   subcontainer: {
     flex: 1,
-    paddingLeft: '12%',
-    paddingRight: '12%',
+    paddingLeft: '8%',
+    paddingRight: '8%',
   },
   subheader: {
     fontSize: 17,

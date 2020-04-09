@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {Card, Button, Row, Col} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
-import {ModalInfo} from './ModalInfo';
+import {EventModalInfo} from './EventModalInfo';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -18,7 +18,7 @@ const EventCard = ({event}) => {
     <Card
       containerStyle={{borderRadius: 15, height: 300, borderColor: '#03A9F4'}}>
       <TouchableOpacity onPress={toggleModal} style={{marginLeft: 5}}>
-        <ModalInfo isVisible={modalVisible} toggle={toggleModal} />
+        <EventModalInfo isVisible={modalVisible} toggle={toggleModal} />
         <Text style={styles.title}>
           React Fundamentals: Introduction to React
         </Text>

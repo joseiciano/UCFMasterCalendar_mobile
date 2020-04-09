@@ -3,7 +3,7 @@ import {View, Text, ScrollView, TextInput} from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
 
-const ModalInfo = ({isVisible, toggle}) => {
+const EventModalInfo = ({isVisible, toggle}) => {
   const handleRegister = () => {
     console.log('pepega submit');
   };
@@ -87,13 +87,13 @@ const ModalInfo = ({isVisible, toggle}) => {
   );
 };
 
-export {ModalInfo};
+export {EventModalInfo};
 
 const styles = {
   subcontainer: {
     flex: 1,
-    paddingLeft: '12%',
-    paddingRight: '12%',
+    paddingLeft: '8%',
+    paddingRight: '8%',
   },
   subheader: {
     fontSize: 17,
