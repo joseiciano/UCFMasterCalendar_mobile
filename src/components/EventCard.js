@@ -17,13 +17,11 @@ const EventCard = ({event}) => {
   return (
     <Card
       containerStyle={{borderRadius: 15, height: 300, borderColor: '#03A9F4'}}>
-      <View style={{marginLeft: 5}}>
-        <TouchableOpacity onPress={toggleModal}>
-          <ModalInfo isVisible={modalVisible} toggle={toggleModal} />
-          <Text style={styles.title}>
-            React Fundamentals: Introduction to React
-          </Text>
-        </TouchableOpacity>
+      <TouchableOpacity onPress={toggleModal} style={{marginLeft: 5}}>
+        <ModalInfo isVisible={modalVisible} toggle={toggleModal} />
+        <Text style={styles.title}>
+          React Fundamentals: Introduction to React
+        </Text>
         <View flexDirection="row">
           <Text style={styles.clubIntro}>Hosted by </Text>
           <Text style={styles.club}>Knight Hacks</Text>
@@ -48,7 +46,7 @@ const EventCard = ({event}) => {
           />
           <Text style={styles.location}>HEC 450</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </Card>
   );
 };

@@ -1,14 +1,24 @@
 import React from 'react';
-import {View, ScrollView, StyleSheet, Text, Image} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {Card, Button} from 'react-native-elements';
-import pin from '../assets/images/pin.png';
 
 const ClubCard = ({club}) => {
   return (
     <Card
-      containerStyle={{borderRadius: 15, height: 400, borderColor: '#03A9F4'}}
+      containerStyle={{
+        borderBottomLeftRadius: 15,
+        borderBottomRightRadius: 15,
+        height: '12.25%',
+        borderColor: '#03A9F4',
+      }}
       image={club.image}
-      imageStyle={{height: 200}}>
+      imageWrapperStyle={{
+        borderRadius: 15,
+        borderColor: 'pink',
+      }}
+      imageStyle={{
+        height: 200,
+      }}>
       <View style={styles.textblock}>
         <Text style={styles.title}>Club</Text>
 
