@@ -13,16 +13,16 @@ const ClubCard = ({club}) => {
       containerStyle={styles.container}
       image={club.image}
       imageStyle={{height: 200}}>
-      {/* <TouchableOpacity onPress={toggleModal}> */}
-      {/* <ClubModalInfo isVisible={modalVisible} toggle={toggleModal} /> */}
-      <View style={styles.textblock}>
-        <Text style={styles.title}>Club</Text>
-        <Text style={styles.description}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempo incididunt ut labore et dolore magna aliqua.
-        </Text>
-      </View>
-      {/* </TouchableOpacity> */}
+      <TouchableOpacity onPress={toggleModal}>
+        <ClubModalInfo isVisible={modalVisible} toggle={toggleModal} />
+        <View style={styles.textblock}>
+          <Text style={styles.title}>Club</Text>
+          <Text style={styles.description}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempo incididunt ut labore et dolore magna aliqua.
+          </Text>
+        </View>
+      </TouchableOpacity>
     </Card>
   );
 };
@@ -32,7 +32,7 @@ const styles = {
     flex: 1,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    height: 380,
+    height: 390,
     borderColor: '#03A9F4',
   },
   textblock: {
