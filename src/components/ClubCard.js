@@ -6,7 +6,7 @@ import pin from '../assets/images/pin.png';
 const ClubCard = ({club}) => {
   return (
     <Card
-      containerStyle={{borderRadius: 15, height: 400}}
+      containerStyle={{borderRadius: 15, height: 400, borderColor: '#03A9F4'}}
       image={club.image}
       imageStyle={{height: 200}}>
       <View style={styles.textblock}>

@@ -13,23 +13,6 @@ GET an event: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/
 GET all events: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/:club/events
 */
 
-const ModalInfo = ({isVisible, toggle}) => {
-  return (
-    <Modal
-      isVisible={isVisible}
-      animationType="slide"
-      transparent={true}
-      useNativeDriver={true}
-      hideModalContentWhileAnimating={true}
-      onBackButtonPress={toggle}
-      onBackdropPress={toggle}>
-      <View style={{flex: 1, backgroundColor: 'white'}}>
-        <Text>Hello</Text>
-      </View>
-    </Modal>
-  );
-};
-
 export default class Events extends Component {
   constructor(props) {
     super(props);
@@ -58,7 +41,7 @@ export default class Events extends Component {
         />
         <Lister
           title={'Events'}
-          type="eventspage"
+          type="events"
           buttonPress={() => this.setState({showModal: !this.state.showModal})}
           list={this.state.events}
         />

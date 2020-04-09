@@ -47,12 +47,12 @@ const ModalForm = ({isVisible, toggle}) => {
 
   const handleConfirmStartTime = time => {
     setStartTime(time);
-    hideDatePicker();
+    hideTimePicker();
   };
 
   const handleConfirmEndTime = time => {
     setEndTime(time);
-    hideDatePicker();
+    hideTimePicker();
   };
 
   const handleSubmit = () => {

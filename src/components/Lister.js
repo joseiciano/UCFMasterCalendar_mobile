@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {View, Text, ScrollView, TextInput, FlatList} from 'react-native';
 import {Navbar} from '../components/Navbar';
-import {EventPageCard, EventCard} from '../components/EventCard';
+import {EventCard} from '../components/EventCard';
 import {Button} from 'react-native-elements';
 import {ClubCard} from '../components/ClubCard';
 
@@ -80,10 +80,6 @@ class Lister extends Component {
               case 'clubs':
                 return this.props.list.map(club => (
                   <ClubCard key={club.id} club={club} />
-                ));
-              case 'eventspage':
-                return this.props.list.map(event => (
-                  <EventPageCard key={event.id} />
                 ));
               case 'endpadding':
                 return <View style={{marginTop: 30}} />;
