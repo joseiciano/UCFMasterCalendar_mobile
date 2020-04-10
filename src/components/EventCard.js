@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Card, Button, Row, Col} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -14,14 +14,31 @@ const EventCard = ({event}) => {
     setModalVisible(!modalVisible);
   };
 
+  useEffect(() => {
+    console.log('event', event);
+  }, []);
+
   return (
     <Card
-      containerStyle={{borderRadius: 15, height: 300, borderColor: '#03A9F4'}}>
+      containerStyle={{
+        borderRadius: 15,
+        height: 300,
+        borderColor: '#03A9F4',
+      }}>
       <TouchableOpacity onPress={toggleModal} style={{marginLeft: 5}}>
-        <EventModalInfo isVisible={modalVisible} toggle={toggleModal} />
-        <Text style={styles.title}>
-          React Fundamentals: Introduction to React
-        </Text>
+        <EventModalInfo
+          isVisible={modalVisible}
+          toggle={toggleModal}
+          title={event.title}
+          location={event.location}
+          clubId={event.clubId}
+          description={event.description}
+          startTime={event.startTime}
+          startDate={event.startDate}
+          endDate={event.endDate}
+          endTime={event.endTime}
+        />
+        <Text style={styles.title}>{event.title}</Text>
         <View flexDirection="row">
           <Text style={styles.clubIntro}>Hosted by </Text>
           <Text style={styles.club}>Knight Hacks</Text>
@@ -34,9 +51,11 @@ const EventCard = ({event}) => {
             onPress={() => console.log('pressed icon')}
             style={{color: 'black', top: '7.5%'}}
           />
-          <Text style={styles.date}>Wednesday, February 20th, 2020</Text>
+          <Text style={styles.date}>{event.startDate}</Text>
         </View>
-        <Text style={styles.time}>5:30 PM to 8:30 PM</Text>
+        <Text style={styles.time}>
+          {event.startTime} to {event.endTime}
+        </Text>
         <View style={{flexDirection: 'row'}}>
           <Ionicons
             name="md-pin"
@@ -44,7 +63,9 @@ const EventCard = ({event}) => {
             onPress={() => console.log('pressed icon')}
             style={{color: 'black'}}
           />
-          <Text style={styles.location}>HEC 450</Text>
+          <Text style={styles.location}>
+            {event.location && event.location.toUpperCase()}
+          </Text>
         </View>
       </TouchableOpacity>
     </Card>

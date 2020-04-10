@@ -1,12 +1,27 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, ScrollView, TextInput} from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
 
-const EventModalInfo = ({isVisible, toggle}) => {
+const EventModalInfo = ({
+  isVisible,
+  toggle,
+  title,
+  location,
+  clubId,
+  description,
+  startTime,
+  startDate,
+  endTime,
+  enddate,
+}) => {
   const handleRegister = () => {
     console.log('pepega submit');
   };
+
+  // useEffect(() => {
+  //   console.log('card', location);
+  // }, []);
 
   return (
     <Modal
@@ -23,53 +38,58 @@ const EventModalInfo = ({isVisible, toggle}) => {
           height: '100%',
           backgroundColor: 'white',
         }}>
-        <View style={{...styles.subcontainer, paddingTop: '8%'}}>
+        <View style={{...styles.subcontainer, paddingTop: '6%'}}>
           <Text
             style={{fontFamily: 'Pacifico', fontSize: 20, textAlign: 'center'}}>
-            (Insert Event Title Here)
+            {title}
           </Text>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>Event Name</Text>
-          <TextInput editable={false} style={styles.input} />
+          <TextInput value={title} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>Host Name</Text>
-          <TextInput editable={false} style={styles.input} />
+          <TextInput value={clubId} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>Description</Text>
-          <TextInput multiline editable={false} style={styles.input} />
+          <TextInput
+            value={description}
+            multiline
+            editable={false}
+            style={styles.input}
+          />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>Location</Text>
-          <TextInput editable={false} style={styles.input} />
+          <TextInput value={location} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>Date</Text>
-          <TextInput editable={false} style={styles.input} />
+          <TextInput value={startDate} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>Start Time</Text>
-          <TextInput editable={false} style={styles.input} />
+          <TextInput value={startTime} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>End Time</Text>
-          <TextInput editable={false} style={styles.input} />
+          <TextInput value={endTime} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
@@ -111,6 +131,9 @@ const styles = {
     width: '100%',
     borderRadius: 10,
     backgroundColor: 'white',
+    color: 'black',
+    textAlign: 'center',
+    fontFamily: 'Quicksand-Bold',
   },
   submitButton: {
     borderColor: '#03A9F4',

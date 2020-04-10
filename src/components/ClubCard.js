@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 import {ClubModalInfo} from './ClubModalInfo';
@@ -7,20 +7,20 @@ const ClubCard = ({club}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => setModalVisible(!modalVisible);
+  useEffect(() => {
+    console.log('card', club);
+  }, []);
 
   return (
     <Card
       containerStyle={styles.container}
-      image={club.image}
+      image={{uri: club.image}}
       imageStyle={{height: 200}}>
       <TouchableOpacity onPress={toggleModal}>
         <ClubModalInfo isVisible={modalVisible} toggle={toggleModal} />
         <View style={styles.textblock}>
-          <Text style={styles.title}>Club</Text>
-          <Text style={styles.description}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempo incididunt ut labore et dolore magna aliqua.
-          </Text>
+          <Text style={styles.title}>{club.name}</Text>
+          <Text style={styles.description}>{club.description}</Text>
         </View>
       </TouchableOpacity>
     </Card>
@@ -32,7 +32,7 @@ const styles = {
     flex: 1,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
-    height: 390,
+    height: 530,
     borderColor: '#03A9F4',
   },
   textblock: {
@@ -50,7 +50,6 @@ const styles = {
     marginBottom: 30,
     marginRight: 35,
     fontSize: 18,
-    width: 260,
   },
   club: {
     marginTop: 10,

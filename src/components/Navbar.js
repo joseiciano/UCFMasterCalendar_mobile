@@ -1,5 +1,10 @@
-import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Link} from 'react-router-native';
+import {useHistory} from 'react-router-native';
+import Login from './Login';
+import Register from './Register';
+import * as firebase from 'firebase/app';
 
 const Navbar = ({
   leftText,
@@ -8,15 +13,56 @@ const Navbar = ({
   rightText2,
   rightText2OnPress,
 }) => {
+  const [loginModal, setLoginModal] = useState(false);
+  const [registerModal, setRegisterModal] = useState(false);
+  const [signInState, setSignInState] = useState(false);
+  const history = useHistory();
+
+  const toggleLogin = () => setLoginModal(!loginModal);
+  const toggleRegister = () => setRegisterModal(!registerModal);
+
+  const logout = () => {
+    firebase.auth().signOut();
+    history.push('/');
+  };
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        setSignInState(true);
+      }
+    });
+  }, []);
+
   return (
     <View style={styles.navBar}>
+      <Login isVisible={loginModal} toggle={toggleLogin} />
+      <Register isVisible={registerModal} toggle={toggleRegister} />
       <Text style={styles.nameBtn}>{leftText}</Text>
-      <Text onPress={rightText1OnPress} style={styles.login}>
-        {rightText1}
-      </Text>
-      <Text onPress={rightText2OnPress} style={styles.register}>
-        {rightText2}
-      </Text>
+
+      {!signInState && (
+        <TouchableOpacity
+          onPress={toggleLogin}
+          style={{activeOpacity: 0.4, marginLeft: '25%', width: '18%'}}>
+          <Text style={styles.login}>{rightText1}</Text>
+        </TouchableOpacity>
+      )}
+
+      {!signInState && (
+        <TouchableOpacity
+          onPress={toggleRegister}
+          style={{activeOpacity: 0.4, marginLeft: '2%', width: '18%'}}>
+          <Text style={styles.register}>{rightText2}</Text>
+        </TouchableOpacity>
+      )}
+
+      {signInState && (
+        <TouchableOpacity
+          onPress={logout}
+          style={{activeOpacity: 0.4, marginLeft: '38.6%', width: '18%'}}>
+          <Text style={styles.register}>Log Out</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
@@ -42,20 +88,17 @@ const styles = StyleSheet.create({
   },
   login: {
     color: '#C0C0C0',
-    marginLeft: '25%',
     textAlign: 'center',
+    top: '25%',
     fontSize: 20,
     marginTop: '4.5%',
-    height: '60%',
   },
   register: {
     color: '#C0C0C0',
-    marginLeft: '5%',
-    width: '18%',
     fontSize: 20,
+    top: '25%',
     textAlign: 'center',
     marginTop: '4.5%',
-    height: '60%',
   },
 });
 

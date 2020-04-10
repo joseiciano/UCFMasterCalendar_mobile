@@ -11,6 +11,8 @@ class Lister extends Component {
     this.state = {
       text: '',
       items: [],
+      showLoginModal: false,
+      showRegisterModal: false,
     };
   }
 
@@ -30,6 +32,15 @@ class Lister extends Component {
     });
   }
 
+  toggleLogin = () => {
+    this.setState({showLoginModal: !this.state.showLoginModal}, () => {
+      console.log('state', this.state.showLoginModal);
+    });
+  };
+
+  toggleRegister = () =>
+    this.setState({showRegisterModal: !this.state.showRegisterModal});
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -43,11 +54,12 @@ class Lister extends Component {
                   <Navbar
                     leftText="Knightro"
                     rightText1="Log in"
-                    rightText1OnPress={() => console.log('Log in')}
-                    rightText2="Sign up"
-                    rightText2OnPress={() => {
-                      console.log('Sign up');
+                    rightText1OnPress={() => {
+                      console.log('we in');
+                      this.toggleLogin();
                     }}
+                    rightText2="Sign up"
+                    rightText2OnPress={this.toggleRegister}
                   />
                 );
               case 'title':
@@ -74,12 +86,12 @@ class Lister extends Component {
                   />
                 );
               case 'events':
-                return this.props.list.map(event => (
-                  <EventCard key={event.id} event={event} />
+                return this.props.list.map((event, idx) => (
+                  <EventCard key={idx} event={event} />
                 ));
               case 'clubs':
-                return this.props.list.map(club => (
-                  <ClubCard key={club.id} club={club} />
+                return this.props.list.map((club, idx) => (
+                  <ClubCard key={idx} club={club} />
                 ));
               case 'endpadding':
                 return <View style={{marginTop: 30}} />;

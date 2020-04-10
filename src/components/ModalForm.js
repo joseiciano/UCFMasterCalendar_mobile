@@ -21,7 +21,8 @@ const ModalForm = ({isVisible, toggle}) => {
   const [club, setClub] = useState('');
   const [location, setLocation] = useState('');
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+  const [startTimeVisible, setStartTimeVisible] = useState(false);
+  const [endTimeVisible, setEndTimeVisible] = useState(false);
 
   const reset = () => {
     setName('');
@@ -30,29 +31,6 @@ const ModalForm = ({isVisible, toggle}) => {
     setDate('');
     setClub('');
     setLocation('');
-  };
-
-  const showDatePicker = () => setDatePickerVisibility(true);
-
-  const hideDatePicker = () => setDatePickerVisibility(false);
-
-  const showTimePicker = () => setTimePickerVisibility(true);
-
-  const hideTimePicker = () => setTimePickerVisibility(false);
-
-  const handleConfirmDate = date => {
-    setDate(date);
-    hideDatePicker();
-  };
-
-  const handleConfirmStartTime = time => {
-    setStartTime(time);
-    hideTimePicker();
-  };
-
-  const handleConfirmEndTime = time => {
-    setEndTime(time);
-    hideTimePicker();
   };
 
   const handleSubmit = () => {
@@ -110,14 +88,18 @@ const ModalForm = ({isVisible, toggle}) => {
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>Date</Text>
-          <TouchableOpacity onPress={showDatePicker}>
+          <TouchableOpacity onPress={() => setDatePickerVisibility(true)}>
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="date"
-              onConfirm={handleConfirmDate}
-              onCancel={hideDatePicker}
+              onConfirm={date => {
+                setDate(date);
+                setDatePickerVisibility(false);
+              }}
+              onCancel={() => setDatePickerVisibility(false)}
             />
             <TextInput
+              value={date.toString()}
               editable={false}
               onChange={text => setDate(text)}
               style={styles.input}
@@ -128,28 +110,38 @@ const ModalForm = ({isVisible, toggle}) => {
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>Start Time</Text>
-          <TouchableOpacity onPress={showTimePicker}>
+          <TouchableOpacity onPress={() => setStartTimeVisible(true)}>
             <DateTimePickerModal
-              isVisible={isTimePickerVisible}
+              isVisible={startTimeVisible}
               mode="time"
-              onConfirm={handleConfirmStartTime}
-              onCancel={hideTimePicker}
+              onConfirm={time => {
+                setStartTime(time);
+                setStartTimeVisible(false);
+              }}
+              onCancel={() => setStartTimeVisible(false)}
             />
-            <TextInput editable={false} style={styles.input} />
+            <TextInput
+              value={startTime}
+              editable={false}
+              style={styles.input}
+            />
           </TouchableOpacity>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <Text style={styles.subheader}>End Time</Text>
-          <TouchableOpacity onPress={showTimePicker}>
+          <TouchableOpacity onPress={() => setEndTimeVisible(true)}>
             <DateTimePickerModal
-              isVisible={isTimePickerVisible}
+              isVisible={endTimeVisible}
               mode="time"
-              onConfirm={handleConfirmEndTime}
-              onCancel={hideTimePicker}
+              onConfirm={time => {
+                setEndTime(time);
+                setEndTimeVisible(false);
+              }}
+              onCancel={() => setEndTimeVisible(false)}
             />
-            <TextInput editable={false} style={styles.input} />
+            <TextInput value={endTime} editable={false} style={styles.input} />
           </TouchableOpacity>
           <Divider style={styles.divider} />
         </View>

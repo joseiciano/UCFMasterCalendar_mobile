@@ -1,11 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, ScrollView, TextInput} from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
+import * as firebase from 'firebase/app';
+import {useHistory} from 'react-router-native';
 
-const ClubModalInfo = ({isVisible, toggle}) => {
-  const handleRegister = () => {
-    console.log('pepega submit');
+const Register = ({isVisible, toggle}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const history = useHistory();
+
+  const handleRegister = e => {
+    e.preventDefault();
+
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(res => {
+        toggle();
+        history.push('/');
+      })
+      .catch(error => {
+        console.log('error creating user', error);
+      });
   };
 
   return (
@@ -23,55 +40,55 @@ const ClubModalInfo = ({isVisible, toggle}) => {
           height: '100%',
           backgroundColor: 'white',
         }}>
-        <View style={{...styles.subcontainer, paddingTop: '6%'}}>
+        <View style={{...styles.subcontainer, paddingTop: '8%'}}>
           <Text
             style={{fontFamily: 'Pacifico', fontSize: 20, textAlign: 'center'}}>
-            (Insert Club Name Title Here)
+            Register a New Account
           </Text>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Email: </Text>
-          </View>
+          <Text style={styles.subheader}>Email</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={text => setEmail(text)}
+          />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Phone: </Text>
-          </View>
+          <Text style={styles.subheader}>Password</Text>
+          <TextInput
+            secureTextEntry={true}
+            style={styles.input}
+            onChangeText={text => setPassword(text)}
+          />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Website: </Text>
-          </View>
-          <Divider style={styles.divider} />
+          <Button
+            title="Register"
+            buttonStyle={styles.submitButton}
+            titleStyle={{color: '#03A9F4'}}
+            onPress={handleRegister}
+          />
         </View>
 
-        <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Instagram: </Text>
-          </View>
-          <Divider style={styles.divider} />
-        </View>
         <View style={{flex: 1, marginBottom: '5%'}} />
       </ScrollView>
     </Modal>
   );
 };
 
-export {ClubModalInfo};
+export default Register;
 
 const styles = {
   subcontainer: {
     flex: 1,
     paddingLeft: '8%',
     paddingRight: '8%',
-    marginTop: '2%',
   },
   subheader: {
     fontSize: 17,
@@ -96,7 +113,7 @@ const styles = {
     borderWidth: 1.5,
     borderRadius: 10,
     backgroundColor: 'white',
-    marginLeft: 20,
+    marginLeft: '10.5%',
     width: '80%',
   },
 };

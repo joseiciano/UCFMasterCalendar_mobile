@@ -1,11 +1,27 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, ScrollView, TextInput} from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
+import * as firebase from 'firebase/app';
+import {useHistory} from 'react-router-native';
 
-const ClubModalInfo = ({isVisible, toggle}) => {
-  const handleRegister = () => {
-    console.log('pepega submit');
+const Login = ({isVisible, toggle}) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = e => {
+    e.preventDefault();
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(res => {
+        toggle();
+        history.push('/');
+      })
+      .catch(error => {
+        console.log('error logging in user', error);
+      });
   };
 
   return (
@@ -26,37 +42,36 @@ const ClubModalInfo = ({isVisible, toggle}) => {
         <View style={{...styles.subcontainer, paddingTop: '6%'}}>
           <Text
             style={{fontFamily: 'Pacifico', fontSize: 20, textAlign: 'center'}}>
-            (Insert Club Name Title Here)
+            Login to an Existing Account
           </Text>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Email: </Text>
-          </View>
+          <Text style={styles.subheader}>Email</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={text => setEmail(text)}
+          />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Phone: </Text>
-          </View>
+          <Text style={styles.subheader}>Password</Text>
+          <TextInput
+            secureTextEntry={true}
+            style={styles.input}
+            onChangeText={text => setPassword(text)}
+          />
           <Divider style={styles.divider} />
         </View>
-
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Website: </Text>
-          </View>
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Instagram: </Text>
-          </View>
-          <Divider style={styles.divider} />
+          <Button
+            title="Log In"
+            buttonStyle={styles.submitButton}
+            titleStyle={{color: '#03A9F4'}}
+            onPress={handleLogin}
+          />
         </View>
         <View style={{flex: 1, marginBottom: '5%'}} />
       </ScrollView>
@@ -64,14 +79,13 @@ const ClubModalInfo = ({isVisible, toggle}) => {
   );
 };
 
-export {ClubModalInfo};
+export default Login;
 
 const styles = {
   subcontainer: {
     flex: 1,
     paddingLeft: '8%',
     paddingRight: '8%',
-    marginTop: '2%',
   },
   subheader: {
     fontSize: 17,
@@ -96,7 +110,7 @@ const styles = {
     borderWidth: 1.5,
     borderRadius: 10,
     backgroundColor: 'white',
-    marginLeft: 20,
+    marginLeft: '10.5%',
     width: '80%',
   },
 };
