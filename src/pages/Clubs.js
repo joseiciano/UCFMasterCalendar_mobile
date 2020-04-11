@@ -3,9 +3,7 @@ import {View, Text, ScrollView, StyleSheet, image} from 'react-native';
 import {Navbar} from '../components/Navbar';
 import {Lister} from '../components/Lister';
 import axios from 'axios';
-
-import eventPic from '../assets/images/eventPic.png';
-import clubPic from '../assets/images/clubPic.jpg';
+import {ClubModalForm} from '../components/ClubModalForm';
 
 const URL =
   'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
@@ -15,6 +13,7 @@ export default class Clubs extends Component {
     super(props);
     this.state = {
       clubs: [],
+      showModal: false,
     };
   }
 
@@ -49,7 +48,17 @@ export default class Clubs extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Lister title="Clubs" type="Clubs" list={this.state.clubs} />
+        <ClubModalForm
+          isVisible={this.state.showModal}
+          toggle={() => this.setState({showModal: !this.state.showModal})}
+        />
+        <Lister
+          title="Clubs"
+          titleType="clubstitle"
+          type="Clubs"
+          buttonPress={() => this.setState({showModal: !this.state.showModal})}
+          list={this.state.clubs}
+        />
       </View>
     );
   }

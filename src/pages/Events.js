@@ -4,7 +4,7 @@ import {Lister} from '../components/Lister.js';
 import eventPic from '../assets/images/eventPic.png';
 import axios from 'axios';
 import * as firebase from 'firebase/app';
-import {ModalForm} from '../components/ModalForm';
+import {EventModalForm} from '../components/EventModalForm';
 
 /*
 GET all clubs: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs
@@ -118,12 +118,13 @@ export default class Events extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <ModalForm
+        <EventModalForm
           isVisible={this.state.showModal}
           toggle={() => this.setState({showModal: !this.state.showModal})}
         />
         <Lister
           title={'Events'}
+          titleType="eventstitle"
           type="events"
           buttonPress={() => this.setState({showModal: !this.state.showModal})}
           list={this.state.events}

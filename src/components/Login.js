@@ -8,6 +8,7 @@ import {useHistory} from 'react-router-native';
 const Login = ({isVisible, toggle}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
 
   const handleLogin = e => {
     e.preventDefault();

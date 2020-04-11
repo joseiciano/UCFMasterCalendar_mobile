@@ -12,7 +12,7 @@ import * as firebase from 'firebase/app';
 import Modal from 'react-native-modal';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-const ModalForm = ({isVisible, toggle}) => {
+const EventModalForm = ({isVisible, toggle}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -160,7 +160,7 @@ const ModalForm = ({isVisible, toggle}) => {
   );
 };
 
-export {ModalForm};
+export {EventModalForm};
 
 const styles = {
   subcontainer: {

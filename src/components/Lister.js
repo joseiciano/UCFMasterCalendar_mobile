@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, TextInput, FlatList} from 'react-native';
+import {View, Text, TextInput, FlatList} from 'react-native';
 import {Navbar} from '../components/Navbar';
 import {EventCard} from '../components/EventCard';
 import {Button} from 'react-native-elements';
@@ -22,7 +22,7 @@ class Lister extends Component {
         {id: '1', type: 'navbar'},
         {
           id: '2',
-          type: 'title',
+          type: this.props.titleType ? this.props.titleType : '',
           button: this.props.buttonPress ? this.props.buttonPress : null,
         },
         {id: '3', type: 'searchbar'},
@@ -32,11 +32,8 @@ class Lister extends Component {
     });
   }
 
-  toggleLogin = () => {
-    this.setState({showLoginModal: !this.state.showLoginModal}, () => {
-      console.log('state', this.state.showLoginModal);
-    });
-  };
+  toggleLogin = () =>
+    this.setState({showLoginModal: !this.state.showLoginModal});
 
   toggleRegister = () =>
     this.setState({showRegisterModal: !this.state.showRegisterModal});
@@ -54,25 +51,62 @@ class Lister extends Component {
                   <Navbar
                     leftText="Knightro"
                     rightText1="Log in"
-                    rightText1OnPress={() => {
-                      console.log('we in');
-                      this.toggleLogin();
-                    }}
+                    rightText1OnPress={this.toggleLogin}
                     rightText2="Sign up"
                     rightText2OnPress={this.toggleRegister}
                   />
                 );
-              case 'title':
+              case 'eventstitle':
                 return (
                   <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{this.props.title}</Text>
                     {item.button && (
-                      <Button
-                        buttonStyle={styles.addButton}
-                        title={'Create'}
-                        titleStyle={{color: '#03A9F4'}}
-                        onPress={item.button}
-                      />
+                      <View
+                        style={{
+                          width: '50%',
+                          flexDirection: 'row',
+                          marginLeft: '8.5%',
+                        }}>
+                        <Button
+                          buttonStyle={styles.addButton}
+                          title={'View'}
+                          titleStyle={{color: '#03A9F4'}}
+                          onPress={item.button}
+                        />
+                        <Button
+                          buttonStyle={styles.addButton}
+                          title={'Create'}
+                          titleStyle={{color: '#03A9F4'}}
+                          onPress={item.button}
+                        />
+                      </View>
+                    )}
+                  </View>
+                );
+              case 'clubstitle':
+                return (
+                  <View style={styles.titleWrapper}>
+                    <Text style={styles.title}>{this.props.title}</Text>
+                    {item.button && (
+                      <View
+                        style={{
+                          width: '50%',
+                          flexDirection: 'row',
+                          marginLeft: '12.5%',
+                        }}>
+                        <Button
+                          buttonStyle={styles.addButton}
+                          title={'View'}
+                          titleStyle={{color: '#03A9F4'}}
+                          onPress={item.button}
+                        />
+                        <Button
+                          buttonStyle={styles.addButton}
+                          title={'Create'}
+                          titleStyle={{color: '#03A9F4'}}
+                          onPress={item.button}
+                        />
+                      </View>
                     )}
                   </View>
                 );
@@ -80,9 +114,7 @@ class Lister extends Component {
                 return (
                   <TextInput
                     style={styles.searchbar}
-                    onChangeText={text => {
-                      this.setState({text: text});
-                    }}
+                    onChangeText={text => this.setState({text: text})}
                   />
                 );
               case 'events':
@@ -128,8 +160,7 @@ const styles = {
     borderWidth: 1.5,
     borderRadius: 10,
     backgroundColor: 'white',
-    marginLeft: '47%',
-    width: '40%',
+    width: '90%',
   },
 };
 

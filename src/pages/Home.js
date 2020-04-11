@@ -15,18 +15,6 @@ import {EventCard} from '../components/EventCard';
 import {ClubCard} from '../components/ClubCard';
 import {EventModalInfo} from '../components/EventModalInfo';
 
-/*
-Base URL: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1
-Create a club (POST): /users/:user/clubs
-Get all clubs (GET): /clubs
-Update a club (PUT): /users/:user/clubs/:club
-Delete a club (DELETE): /users/:user/clubs/:club
-Create an event (POST): /users/:user/clubs/:club/events
-Get an event (GET): /events/:event
-Get all events (GET): /events
-Update an event (PUT): /users/:user/clubs/:club/events/:event
-Delete an event (DELETE): /users/:user/clubs/:club/events/:event
-*/
 const days = [
   'Monday',
   'Tuesday',
@@ -78,7 +66,6 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    // Get the initial list of events
     const eventsList = [];
     const clubsList = [];
     axios
@@ -170,15 +157,10 @@ export default class Home extends Component {
     return (
       <View style={{flex: 1, height: '100%'}}>
         <ScrollView style={{flex: 1}}>
-          <Login
-            isVisible={this.state.showLoginModal}
-            toggle={this.toggleLogin}
-          />
           <Register
             isVisible={this.state.showRegisterModal}
             toggle={this.toggleRegister}
           />
-
           <Navbar
             leftText="Knightro"
             rightText1="Log in"
