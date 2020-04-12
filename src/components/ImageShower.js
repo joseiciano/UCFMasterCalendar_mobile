@@ -28,7 +28,10 @@ const ImageShower = ({
         buttonStyle={styles.buttonStyle}
         title={buttonText}
         titleStyle={styles.titleStyle}
-        onPress={buttonOnPress}
+        onPress={() => {
+          // console.log(buttonOnPress);
+          buttonOnPress();
+        }}
       />
     </View>
   );

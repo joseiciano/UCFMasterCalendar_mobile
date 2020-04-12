@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, ScrollView, TextInput, FlatList} from 'react-native';
+import {View, Text, TextInput, FlatList} from 'react-native';
 import {Navbar} from '../components/Navbar';
 import {EventCard} from '../components/EventCard';
 import {Button} from 'react-native-elements';
@@ -11,6 +11,8 @@ class Lister extends Component {
     this.state = {
       text: '',
       items: [],
+      showLoginModal: false,
+      showRegisterModal: false,
     };
   }
 
@@ -20,8 +22,9 @@ class Lister extends Component {
         {id: '1', type: 'navbar'},
         {
           id: '2',
-          type: 'title',
-          button: this.props.buttonPress ? this.props.buttonPress : null,
+          type: this.props.titleType ? this.props.titleType : '',
+          button1: this.props.buttonPress1 ? this.props.buttonPress1 : null,
+          button2: this.props.buttonPress2 ? this.props.buttonPress2 : null,
         },
         {id: '3', type: 'searchbar'},
         {id: '4', type: this.props.type},
@@ -29,6 +32,12 @@ class Lister extends Component {
       ],
     });
   }
+
+  toggleLogin = () =>
+    this.setState({showLoginModal: !this.state.showLoginModal});
+
+  toggleRegister = () =>
+    this.setState({showRegisterModal: !this.state.showRegisterModal});
 
   render() {
     return (
@@ -43,43 +52,75 @@ class Lister extends Component {
                   <Navbar
                     leftText="Knightro"
                     rightText1="Log in"
-                    rightText1OnPress={() => console.log('Log in')}
+                    rightText1OnPress={this.toggleLogin}
                     rightText2="Sign up"
-                    rightText2OnPress={() => {
-                      console.log('Sign up');
-                    }}
+                    rightText2OnPress={this.toggleRegister}
                   />
                 );
-              case 'title':
+              case 'eventstitle':
                 return (
                   <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{this.props.title}</Text>
-                    {item.button && (
+                    <View
+                      style={{
+                        width: '50%',
+                        flexDirection: 'row',
+                        marginLeft: '8.5%',
+                      }}>
+                      <Button
+                        buttonStyle={styles.addButton}
+                        title={'View'}
+                        titleStyle={{color: '#03A9F4'}}
+                        onPress={item.button1}
+                      />
                       <Button
                         buttonStyle={styles.addButton}
                         title={'Create'}
                         titleStyle={{color: '#03A9F4'}}
-                        onPress={item.button}
+                        onPress={item.button2}
                       />
-                    )}
+                    </View>
+                  </View>
+                );
+              case 'clubstitle':
+                return (
+                  <View style={styles.titleWrapper}>
+                    <Text style={styles.title}>{this.props.title}</Text>
+                    <View
+                      style={{
+                        width: '50%',
+                        flexDirection: 'row',
+                        marginLeft: '12.5%',
+                      }}>
+                      <Button
+                        buttonStyle={styles.addButton}
+                        title={'View'}
+                        titleStyle={{color: '#03A9F4'}}
+                        onPress={item.button1}
+                      />
+                      <Button
+                        buttonStyle={styles.addButton}
+                        title={'Create'}
+                        titleStyle={{color: '#03A9F4'}}
+                        onPress={item.button2}
+                      />
+                    </View>
                   </View>
                 );
               case 'searchbar':
                 return (
                   <TextInput
                     style={styles.searchbar}
-                    onChangeText={text => {
-                      this.setState({text: text});
-                    }}
+                    onChangeText={text => this.setState({text: text})}
                   />
                 );
               case 'events':
-                return this.props.list.map(event => (
-                  <EventCard key={event.id} event={event} />
+                return this.props.list.map((event, idx) => (
+                  <EventCard key={idx} event={event} />
                 ));
               case 'clubs':
-                return this.props.list.map(club => (
-                  <ClubCard key={club.id} club={club} />
+                return this.props.list.map((club, idx) => (
+                  <ClubCard key={idx} club={club} />
                 ));
               case 'endpadding':
                 return <View style={{marginTop: 30}} />;
@@ -116,8 +157,7 @@ const styles = {
     borderWidth: 1.5,
     borderRadius: 10,
     backgroundColor: 'white',
-    marginLeft: '47%',
-    width: '40%',
+    width: '90%',
   },
 };
 
