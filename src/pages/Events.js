@@ -56,7 +56,11 @@ export default class Events extends Component {
     super(props);
     this.state = {
       events: [],
+      userEvents: [],
       showModal: false,
+      showEventForm: false,
+      showEventList: false,
+      uid: '',
     };
   }
 
@@ -115,18 +119,31 @@ export default class Events extends Component {
       .catch(e => console.log('error getting list of events', e));
   }
 
+  toggleEventForm = () => {
+    this.setState({showEventForm: !this.state.showEventForm});
+    console.log('Show Events Form');
+  };
+
+  toggleEventList = () => {
+    this.setState({showEventList: !this.state.showEventList});
+    console.log('Show Events List');
+  };
+
   render() {
     return (
       <View style={{flex: 1}}>
         <EventModalForm
-          isVisible={this.state.showModal}
-          toggle={() => this.setState({showModal: !this.state.showModal})}
+          isVisible={this.state.showEventForm}
+          toggle={this.toggleEventForm}
+          eventList={this.state.events}
+          changeEventList={list => this.setState({events: list})}
         />
         <Lister
           title={'Events'}
           titleType="eventstitle"
           type="events"
-          buttonPress={() => this.setState({showModal: !this.state.showModal})}
+          buttonPress1={this.toggleEventList}
+          buttonPress2={this.toggleEventForm}
           list={this.state.events}
         />
       </View>

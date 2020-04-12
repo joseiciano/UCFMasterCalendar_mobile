@@ -12,7 +12,7 @@ import * as firebase from 'firebase/app';
 import Modal from 'react-native-modal';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-const EventModalForm = ({isVisible, toggle}) => {
+const EventModalForm = ({isVisible, toggle, eventList, changeEventList}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -34,7 +34,7 @@ const EventModalForm = ({isVisible, toggle}) => {
   };
 
   const handleSubmit = () => {
-    console.log('pepega submit');
+    console.log('datepicker', date);
   };
 
   return (

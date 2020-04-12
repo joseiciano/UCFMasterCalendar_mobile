@@ -15,9 +15,12 @@ export default class Clubs extends Component {
       showClubForm: false,
       showClubList: false,
       userClubs: [],
+      unique: 0,
       uid: '',
     };
   }
+
+  remount = () => this.setState({unique: this.state.unique + 1});
 
   componentDidMount() {
     const clubsList = [];
@@ -30,17 +33,23 @@ export default class Clubs extends Component {
           const club = res.data[idx].data;
           const curclub = {};
 
-          curclub['name'] = club.name;
-          curclub['id'] = club.userId;
-          curclub['email'] = club.email;
-          if (club.facebook) curclub['facebook'] = club.facebook;
-          if (club.instagram) curclub['instagram'] = club.instagram;
-          if (club.twitter) curclub['twitter'] = club.twitter;
-          if (club.website) curclub['website'] = club.website;
-          curclub['image'] = club.coverImage;
-          curclub['description'] = club.description;
-          curclub['other'] = club.other;
-          curclub['meetinginfo'] = club.meetingInfo;
+          curclub['name'] = club.name ? club.name : '';
+          curclub['id'] = club.userId ? club.userId : '';
+          curclub['email'] = club.email ? club.email : '';
+          if (club.facebook)
+            curclub['facebook'] = club.facebook ? club.facebook : '';
+          if (club.instagram)
+            curclub['instagram'] = club.instagram ? club.instagram : '';
+          if (club.twitter)
+            curclub['twitter'] = club.twitter ? club.twitter : '';
+          if (club.website)
+            curclub['website'] = club.website ? club.website : '';
+          curclub['image'] = club.coverImage
+            ? club.coverImage
+            : 'https://i.redd.it/2l2av8at5sn31.jpg';
+          curclub['description'] = club.description ? club.description : '';
+          curclub['other'] = club.other ? club.other : '';
+          curclub['meetinginfo'] = club.meetingInfo ? club.meetingInfo : '';
 
           clubsList.push(curclub);
         }
@@ -73,29 +82,38 @@ export default class Clubs extends Component {
     });
   }
 
-  changeClubList = list => this.setState({clubs: list});
+  changeClubList = list => {
+    this.setState({clubs: list});
+    this.remount();
+  };
 
-  toggleClubForm = () =>
+  toggleClubForm = () => {
     this.setState({showClubForm: !this.state.showClubForm});
+  };
 
-  toggleClubList = () =>
+  toggleClubList = () => {
     this.setState({showClubList: !this.state.showClubList});
+  };
 
   render() {
     return (
-      <View style={{flex: 1}}>
+      <View key={this.state.unique} style={{flex: 1}}>
         <ClubModalForm
           isVisible={this.state.showClubForm}
           toggle={this.toggleClubForm}
           clubList={this.state.clubs}
-          changeClublist={this.changeClubList}
+          changeClubList={list => this.setState({clubs: list})}
+          remount={this.remount}
         />
         <ClubListModal
           isVisible={this.state.showClubList}
           toggle={this.toggleClubList}
-          clubList={this.state.userClubs}
-          changeClubList={this.changeClubList}
+          clubList={this.state.clubs}
+          userClubs={this.state.userClubs}
+          changeUserClubs={list => this.setState({userClubs: list})}
+          changeClubList={list => this.setState({clubs: list})}
           uid={this.state.uid}
+          remount={this.remount}
         />
         <Lister
           title="Clubs"

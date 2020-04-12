@@ -10,7 +10,15 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import {ClubFormInfo} from './ClubFormInfo';
 
-const ClubModalForm = ({isVisible, toggle, clubList, changeClubList}) => {
+const memes = [];
+// Bug: 5% of the time just randomly goes to a random page and everything breaks
+const ClubModalForm = ({
+  isVisible,
+  toggle,
+  clubList,
+  changeClubList,
+  remount,
+}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('email');
@@ -22,9 +30,11 @@ const ClubModalForm = ({isVisible, toggle, clubList, changeClubList}) => {
   const [coverImage, setCoverImage] = useState('');
   const [other, setOther] = useState('other');
   const [uid, setuid] = useState('');
+  const [unique, setUnique] = useState(0);
   const history = useHistory();
 
   useEffect(() => {
+    // console.log('changeclublist', changeClubList);
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         setuid(user.uid);
@@ -73,6 +83,7 @@ const ClubModalForm = ({isVisible, toggle, clubList, changeClubList}) => {
     });
   };
 
+  // console.log('test');
   const reset = () => {
     setName('');
     setDescription('');
@@ -83,6 +94,7 @@ const ClubModalForm = ({isVisible, toggle, clubList, changeClubList}) => {
   };
 
   const handleSubmit = () => {
+    // console.log('please');
     const newinfo = {
       name: name,
       description: description,
@@ -103,17 +115,20 @@ const ClubModalForm = ({isVisible, toggle, clubList, changeClubList}) => {
         `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
         newinfo,
       )
-      // .then(res => {
-      //   // toggle();
-      //   // changeClubList([...clubList, ]))
-      //   // history.push('/BigBrain');
-      // })
-      .then(res => history.push('/Clubs'))
-      .catch(e => console.log('Error posting to server', e.response));
+      .then(res => {
+        // changeClubList([...clubList, newinfo]);
+        // toggle();
+        remount();
+        console.log('IN HERE', res);
+        // remount();
+        // history.push('/Clubs');
+      })
+      .catch(e => console.log('Error posting to server', e));
   };
 
   return (
     <Modal
+      key={unique}
       isVisible={isVisible}
       animationType="slide"
       onModalWillShow={reset}
@@ -161,7 +176,6 @@ const ClubModalForm = ({isVisible, toggle, clubList, changeClubList}) => {
             imageGallery={openGallery}
             coverImage={coverImage}
             handleSubmit={handleSubmit}
-            handleDelete={() => console.log('pepega')}
             showTwoButtons={false}
           />
         </View>
