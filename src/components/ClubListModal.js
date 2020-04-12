@@ -58,19 +58,21 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
 
     axios
       .put(
-        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/1OTGkZIdktKYnwSeE3Nl`,
+        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/${
+          selectedClub.id
+        }`,
         {
-          name: 'gaepepe',
-          description: 'pepega',
-          meetingInfo: 'pepega',
-          website: 'pepega.com',
-          instagram: 'Pepega',
-          facebook: 'pepega',
-          twitter: 'pepega',
-          coverImage: 'https://i.redd.it/ng9l0ssjf8o11.png',
-          other: 'pepega',
-          userId: 'pepega',
-          email: 'pepega@gmail.com',
+          name: name,
+          description: description,
+          meetingInfo: coverImage,
+          website: website,
+          instagram: instagram,
+          facebook: facebook,
+          twitter: twitter,
+          coverImage: coverImage,
+          other: other,
+          userId: uid,
+          email: email,
         },
       )
       .then(res => console.log('res', res))
