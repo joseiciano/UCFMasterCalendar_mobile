@@ -27,7 +27,6 @@ const ClubListModal = ({isVisible, toggle, clubList, changeClubList, uid}) => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('kill me');
     setClubs(clubList);
     setflag(true);
   }, []);
@@ -66,45 +65,45 @@ const ClubListModal = ({isVisible, toggle, clubList, changeClubList, uid}) => {
 
   const handleSubmit = () => {
     console.log('HANDLE SUBMIT');
-    // const newinfo = {
-    //   name: name,
-    //   description: description,
-    //   meetingInfo: coverImage,
-    //   website: website,
-    //   instagram: instagram,
-    //   facebook: facebook,
-    //   twitter: twitter,
-    //   coverImage: coverImage
-    //     ? coverImage
-    //     : 'https://i.redd.it/2l2av8at5sn31.jpg',
-    //   other: other,
-    //   userId: uid,
-    //   email: email,
-    // };
-    // axios
-    //   .put(
-    //     `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/${
-    //       selectedClub.id
-    //     }`,
-    //     newinfo,
-    //   )
-    //   .then(res => {
-    //     // console.log('NEWNAME', name);
-    //     // setEditClub(!editClub);
-    //     // toggle();
-    //     changeClubList(
-    //       clubList.map(club => {
-    //         if (club.id === selectedClub.id)
-    //           return {id: club.id, data: newinfo};
-    //         else return club;
-    //       }),
-    //     );
-    //     console.log('WE IN HERE');
-    //     // history.push('/BigBrain');
-    //     // window.location.reload();
-    //     // location.reload();
-    //   })
-    //   .catch(e => console.log('Error putting to server', e.response));
+    const newinfo = {
+      name: name,
+      description: description,
+      meetingInfo: coverImage,
+      website: website,
+      instagram: instagram,
+      facebook: facebook,
+      twitter: twitter,
+      coverImage: coverImage
+        ? coverImage
+        : 'https://i.redd.it/2l2av8at5sn31.jpg',
+      other: other,
+      userId: uid,
+      email: email,
+    };
+    axios
+      .put(
+        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/${
+          selectedClub.id
+        }`,
+        newinfo,
+      )
+      .then(res => {
+        // console.log('NEWNAME', name);
+        // setEditClub(!editClub);
+        // toggle();
+        changeClubList(
+          clubList.map(club => {
+            if (club.id === selectedClub.id)
+              return {id: club.id, data: newinfo};
+            else return club;
+          }),
+        );
+        console.log('WE IN HERE');
+        // history.push('/BigBrain');
+        // window.location.reload();
+        // location.reload();
+      })
+      .catch(e => console.log('Error putting to server', e.response));
   };
 
   const openGallery = () => {
@@ -180,7 +179,7 @@ const ClubListModal = ({isVisible, toggle, clubList, changeClubList, uid}) => {
             onChangeTwit={text => setTwitter(text)}
             imageGallery={openGallery}
             coverImage={coverImage}
-            handleSubmit={() => console.log('SERIOUSWHY')}
+            handleSubmit={handleSubmit}
             handleDelete={handleDelete}
             showTwoButtons={true}
           />

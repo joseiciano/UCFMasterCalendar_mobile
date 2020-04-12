@@ -103,11 +103,11 @@ const ClubModalForm = ({isVisible, toggle, clubList, changeClubList}) => {
         `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
         newinfo,
       )
-      // .then(res => {
-      //   // toggle();
-      //   // changeClubList([...clubList, ]))
-      //   // history.push('/BigBrain');
-      // })
+      .then(res => {
+        // toggle();
+        // changeClubList([...clubList, ]))
+        // history.push('/BigBrain');
+      })
       .then(res => history.push('/Clubs'))
       .catch(e => console.log('Error posting to server', e.response));
   };
