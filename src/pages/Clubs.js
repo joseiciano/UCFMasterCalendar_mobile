@@ -7,9 +7,6 @@ import axios from 'axios';
 import {ClubModalForm} from '../components/ClubModalForm';
 import {ClubListModal} from '../components/ClubListModal';
 
-const URL =
-  'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
-
 export default class Clubs extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +22,9 @@ export default class Clubs extends Component {
   componentDidMount() {
     const clubsList = [];
     axios
-      .get(`${URL}/clubs`)
+      .get(
+        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
+      )
       .then(res => {
         for (let idx in res.data) {
           const club = res.data[idx].data;
@@ -53,23 +52,23 @@ export default class Clubs extends Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         const uid = user.uid;
+        console.log('UID');
 
         axios
-          .get(`${URL}/clubs`)
+          .get(
+            `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
+          )
           .then(res => {
             for (let data in res.data) {
               const club = res.data[data];
               const fbid = club.id;
               const clubdata = club.data;
 
-              if (uid === clubdata.userId) {
-                console.log('mix', uid);
-                clublist.push(club);
-              }
+              if (uid === clubdata.userId) clublist.push(club);
             }
             this.setState({userClubs: clublist, uid: uid});
           })
-          .catch(e => console.log(e));
+          .catch(e => console.log('error', e));
       }
     });
   }

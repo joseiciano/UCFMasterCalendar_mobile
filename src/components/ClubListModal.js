@@ -1,23 +1,16 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
-import {Button, Divider} from 'react-native-elements';
+import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
+import {Divider} from 'react-native-elements';
 import axios from 'axios';
 import * as firebase from 'firebase/app';
+import {useHistory} from 'react-router-native';
 import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'rn-fetch-blob';
-
-const URL =
-  'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
+import {ClubFormInfo} from './ClubFormInfo';
 
 const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
-  const [clubs, setClubs] = useState([1, 2, 3]);
+  const [clubs, setClubs] = useState([]);
   const [editClub, setEditClub] = useState(false);
   const [selectedClub, setSelectedClub] = useState(null);
   const [name, setName] = useState('');
@@ -30,32 +23,47 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
   const [twitter, setTwitter] = useState('');
   const [coverImage, setCoverImage] = useState('');
   const [other, setOther] = useState('other');
+  const [flag, setflag] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
-    console.log(uid);
-  }, []);
+    setClubs(clubList);
+    setflag(true);
+  });
+
   const toggleEditClub = club => {
     if (!editClub) {
       setSelectedClub(club);
-      const data = club.data;
-      setName(data.name);
-      setDescription(data.description);
-      setEmail(data.email);
-      setMeetingInfo(meetingInfo);
-      setWebsite(data.website);
-      setInstagram(data.instagram);
-      setFacebook(data.facebook);
-      setTwitter(twitter);
-      setCoverImage(coverImage);
-      setOther(other);
+      setName(club.data.name);
+      setDescription(club.data.description);
+      setEmail(club.data.email);
+      setMeetingInfo(club.data.meetingInfo);
+      setWebsite(club.data.website);
+      setInstagram(club.data.instagram);
+      setFacebook(club.data.facebook);
+      setTwitter(club.data.twitter);
+      setCoverImage(club.data.coverImage);
+      setOther(club.data.other);
     }
-    console.log('we in here');
     setEditClub(!editClub);
   };
 
-  const handleSubmit = () => {
-    console.log(selectedClub.id);
+  const handleDelete = club => {
+    axios
+      .delete(
+        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/${
+          selectedClub.id
+        }`,
+      )
+      .then(res => setClubs(clubs.filter(club => club.id !== selectedClub.id)))
+      .then(res => {
+        toggle();
+      })
+      .then(res => setEditClub(!editClub))
+      .catch(e => console.log('Error deleting to server', e.response));
+  };
 
+  const handleSubmit = () => {
     axios
       .put(
         `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/${
@@ -69,13 +77,22 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
           instagram: instagram,
           facebook: facebook,
           twitter: twitter,
-          coverImage: coverImage,
+          coverImage: coverImage
+            ? coverImage
+            : 'https://i.redd.it/2l2av8at5sn31.jpg',
           other: other,
           userId: uid,
           email: email,
         },
       )
-      .then(res => console.log('res', res))
+      .then(res => {
+        // console.log('NEWNAME', name);
+        setEditClub(!editClub);
+        toggle();
+        history.push('/BigBrain');
+        // window.location.reload();
+        // location.reload();
+      })
       .catch(e => console.log('Error putting to server', e.response));
   };
 
@@ -114,9 +131,7 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
         .then(url => {
           setCoverImage(url);
         })
-        .catch(error => {
-          console.log(error);
-        });
+        .catch(error => console.log(error));
     });
   };
 
@@ -137,118 +152,37 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
         </View>
 
         {editClub && (
-          <View key={0} style={styles.subcontainer}>
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Club Name</Text>
-              <TextInput
-                value={name}
-                onChangeText={text => setName(text)}
-                style={styles.input}
-              />
-              <Divider style={styles.divider} />
-            </View>
-
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Description</Text>
-              <TextInput
-                multiline
-                value={description}
-                onChangeText={text => setDescription(text)}
-                style={styles.input}
-              />
-              <Divider style={styles.divider} />
-            </View>
-
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Meeting Information</Text>
-              <TextInput
-                multiline
-                value={meetingInfo}
-                onChangeText={text => setMeetingInfo(text)}
-                style={styles.input}
-              />
-              <Divider style={styles.divider} />
-            </View>
-
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>
-                Club Website (Need one social media)
-              </Text>
-              <TextInput
-                value={website}
-                onChangeText={text => setWebsite(text)}
-                style={styles.input}
-              />
-              <Divider style={styles.divider} />
-            </View>
-
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>
-                Instagram (Need one social media)
-              </Text>
-              <TextInput
-                value={instagram}
-                onChangeText={text => setInstagram(text)}
-                style={styles.input}
-              />
-              <Divider style={styles.divider} />
-            </View>
-
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>
-                Facebook (Need one social media)
-              </Text>
-              <TextInput
-                value={facebook}
-                onChangeText={text => setFacebook(text)}
-                style={styles.input}
-              />
-              <Divider style={styles.divider} />
-            </View>
-
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>
-                Twitter (Need one social media)
-              </Text>
-              <TextInput
-                value={twitter}
-                onChangeText={text => setTwitter(text)}
-                style={styles.input}
-              />
-              <Divider style={styles.divider} />
-            </View>
-
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Cover Image</Text>
-              <TouchableOpacity onPress={openGallery}>
-                <TextInput
-                  value={coverImage}
-                  editable={false}
-                  style={styles.input}
-                />
-              </TouchableOpacity>
-              <Divider style={styles.divider} />
-            </View>
-
-            <View style={styles.subcontainer}>
-              <Button
-                title="Submit"
-                buttonStyle={styles.submitButton}
-                titleStyle={{color: '#03A9F4'}}
-                onPress={handleSubmit}
-              />
-            </View>
-          </View>
+          <ClubFormInfo
+            nameValue={name}
+            onChangeName={text => setName(text)}
+            descValue={description}
+            onChangeDesc={text => setDescription(text)}
+            meetValue={meetingInfo}
+            onChangeMeet={text => setMeetingInfo(text)}
+            webValue={website}
+            onChangeWeb={text => setWebsite(text)}
+            instaValue={instagram}
+            onChangeInsta={text => setInstagram(text)}
+            faceValue={facebook}
+            onChangeFace={text => setFacebook(text)}
+            twitValue={twitter}
+            onChangeTwit={text => setTwitter(text)}
+            imageGallery={openGallery}
+            coverImage={coverImage}
+            handleSubmit={handleSubmit}
+            handleDelete={handleDelete}
+            showTwoButtons={true}
+          />
         )}
 
         {!editClub &&
-          clubList.map((club, idx) => (
+          clubs.map((club, idx) => (
             <View key={idx} style={styles.subcontainer}>
               <TouchableOpacity
                 onPress={() => {
                   toggleEditClub(club);
                 }}>
-                <Text style={styles.subheader}>Slightly Dank</Text>
+                <Text style={styles.subheader}>{club.data.name}</Text>
               </TouchableOpacity>
               <Divider style={styles.divider} />
             </View>
@@ -302,7 +236,7 @@ const styles = {
     borderWidth: 1.5,
     borderRadius: 10,
     backgroundColor: 'white',
-    marginLeft: 20,
+    marginLeft: '10%',
     width: '80%',
   },
 };

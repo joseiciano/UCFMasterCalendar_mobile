@@ -4,16 +4,12 @@ import axios from 'axios';
 import * as firebase from 'firebase/app';
 import {Button} from 'react-native-elements';
 import Register from '../components/Register';
-import Login from '../components/Login';
 
-import clubPic from '../assets/images/clubPic.jpg';
-import eventPic from '../assets/images/eventPic.png';
 import techHeart from '../assets/images/smallHeart.png';
 import {Navbar} from '../components/Navbar';
 import {ImageShower} from '../components/ImageShower';
 import {EventCard} from '../components/EventCard';
 import {ClubCard} from '../components/ClubCard';
-import {EventModalInfo} from '../components/EventModalInfo';
 
 const days = [
   'Monday',
@@ -214,7 +210,12 @@ export default class Home extends Component {
               buttonStyle={styles.listButton}
               title="View All Clubs"
               titleStyle={{color: '#03A9F4'}}
-              onPress={() => history.push('/Clubs')}
+              onPress={() =>
+                history.push({
+                  pathname: '/Clubs',
+                  state: {clubsList: this.state.clubs},
+                })
+              }
             />
             <View style={{marginTop: '5%'}} />
           </View>

@@ -14,7 +14,12 @@ const ClubCard = ({club}) => {
   return (
     <Card
       containerStyle={styles.container}
-      image={{uri: club.image}}
+      image={{
+        uri:
+          club.image && club.image.length > 0
+            ? club.image
+            : 'https://i.redd.it/2l2av8at5sn31.jpg',
+      }}
       imageStyle={{height: 200}}>
       <TouchableOpacity onPress={toggleModal}>
         <ClubModalInfo isVisible={modalVisible} toggle={toggleModal} />
