@@ -14,9 +14,9 @@ const EventCard = ({event}) => {
     setModalVisible(!modalVisible);
   };
 
-  useEffect(() => {
-    console.log('event', event);
-  }, []);
+  // useEffect(() => {
+  //   console.log('event', event);
+  // }, []);
 
   return (
     <Card

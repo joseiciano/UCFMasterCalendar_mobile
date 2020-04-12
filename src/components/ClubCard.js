@@ -7,9 +7,9 @@ const ClubCard = ({club}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => setModalVisible(!modalVisible);
-  useEffect(() => {
-    console.log('card', club);
-  }, []);
+  // useEffect(() => {
+  //   console.log('card', club);
+  // }, []);
 
   return (
     <Card

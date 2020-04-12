@@ -23,7 +23,8 @@ class Lister extends Component {
         {
           id: '2',
           type: this.props.titleType ? this.props.titleType : '',
-          button: this.props.buttonPress ? this.props.buttonPress : null,
+          button1: this.props.buttonPress1 ? this.props.buttonPress1 : null,
+          button2: this.props.buttonPress2 ? this.props.buttonPress2 : null,
         },
         {id: '3', type: 'searchbar'},
         {id: '4', type: this.props.type},
@@ -60,54 +61,50 @@ class Lister extends Component {
                 return (
                   <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{this.props.title}</Text>
-                    {item.button && (
-                      <View
-                        style={{
-                          width: '50%',
-                          flexDirection: 'row',
-                          marginLeft: '8.5%',
-                        }}>
-                        <Button
-                          buttonStyle={styles.addButton}
-                          title={'View'}
-                          titleStyle={{color: '#03A9F4'}}
-                          onPress={item.button}
-                        />
-                        <Button
-                          buttonStyle={styles.addButton}
-                          title={'Create'}
-                          titleStyle={{color: '#03A9F4'}}
-                          onPress={item.button}
-                        />
-                      </View>
-                    )}
+                    <View
+                      style={{
+                        width: '50%',
+                        flexDirection: 'row',
+                        marginLeft: '8.5%',
+                      }}>
+                      <Button
+                        buttonStyle={styles.addButton}
+                        title={'View'}
+                        titleStyle={{color: '#03A9F4'}}
+                        onPress={item.button1}
+                      />
+                      <Button
+                        buttonStyle={styles.addButton}
+                        title={'Create'}
+                        titleStyle={{color: '#03A9F4'}}
+                        onPress={item.button2}
+                      />
+                    </View>
                   </View>
                 );
               case 'clubstitle':
                 return (
                   <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{this.props.title}</Text>
-                    {item.button && (
-                      <View
-                        style={{
-                          width: '50%',
-                          flexDirection: 'row',
-                          marginLeft: '12.5%',
-                        }}>
-                        <Button
-                          buttonStyle={styles.addButton}
-                          title={'View'}
-                          titleStyle={{color: '#03A9F4'}}
-                          onPress={item.button}
-                        />
-                        <Button
-                          buttonStyle={styles.addButton}
-                          title={'Create'}
-                          titleStyle={{color: '#03A9F4'}}
-                          onPress={item.button}
-                        />
-                      </View>
-                    )}
+                    <View
+                      style={{
+                        width: '50%',
+                        flexDirection: 'row',
+                        marginLeft: '12.5%',
+                      }}>
+                      <Button
+                        buttonStyle={styles.addButton}
+                        title={'View'}
+                        titleStyle={{color: '#03A9F4'}}
+                        onPress={item.button1}
+                      />
+                      <Button
+                        buttonStyle={styles.addButton}
+                        title={'Create'}
+                        titleStyle={{color: '#03A9F4'}}
+                        onPress={item.button2}
+                      />
+                    </View>
                   </View>
                 );
               case 'searchbar':

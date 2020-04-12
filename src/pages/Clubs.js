@@ -2,8 +2,10 @@ import React, {Component} from 'react';
 import {View, Text, ScrollView, StyleSheet, image} from 'react-native';
 import {Navbar} from '../components/Navbar';
 import {Lister} from '../components/Lister';
+import * as firebase from 'firebase';
 import axios from 'axios';
 import {ClubModalForm} from '../components/ClubModalForm';
+import {ClubListModal} from '../components/ClubListModal';
 
 const URL =
   'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
@@ -13,7 +15,10 @@ export default class Clubs extends Component {
     super(props);
     this.state = {
       clubs: [],
-      showModal: false,
+      showClubForm: false,
+      showClubList: false,
+      userClubs: [],
+      uid: '',
     };
   }
 
@@ -43,20 +48,57 @@ export default class Clubs extends Component {
       })
       .then(res => this.setState({clubs: clubsList}))
       .catch(e => console.log('error obtaining clubdata', e));
+
+    const clublist = [];
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        const uid = user.uid;
+
+        axios
+          .get(`${URL}/clubs`)
+          .then(res => {
+            for (let data in res.data) {
+              const club = res.data[data];
+              const fbid = club.id;
+              const clubdata = club.data;
+
+              if (uid === clubdata.userId) {
+                console.log('mix', uid);
+                clublist.push(club);
+              }
+            }
+            this.setState({userClubs: clublist, uid: uid});
+          })
+          .catch(e => console.log(e));
+      }
+    });
   }
+
+  toggleClubForm = () =>
+    this.setState({showClubForm: !this.state.showClubForm});
+
+  toggleClubList = () =>
+    this.setState({showClubList: !this.state.showClubList});
 
   render() {
     return (
       <View style={{flex: 1}}>
         <ClubModalForm
-          isVisible={this.state.showModal}
-          toggle={() => this.setState({showModal: !this.state.showModal})}
+          isVisible={this.state.showClubForm}
+          toggle={this.toggleClubForm}
+        />
+        <ClubListModal
+          isVisible={this.state.showClubList}
+          toggle={this.toggleClubList}
+          clubList={this.state.userClubs}
+          uid={this.state.uid}
         />
         <Lister
           title="Clubs"
           titleType="clubstitle"
           type="Clubs"
-          buttonPress={() => this.setState({showModal: !this.state.showModal})}
+          buttonPress1={this.toggleClubList}
+          buttonPress2={this.toggleClubForm}
           list={this.state.clubs}
         />
       </View>
