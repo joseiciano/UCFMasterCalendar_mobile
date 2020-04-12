@@ -10,6 +10,8 @@ import {Button, Divider} from 'react-native-elements';
 import axios from 'axios';
 import * as firebase from 'firebase/app';
 import Modal from 'react-native-modal';
+import ImagePicker from 'react-native-image-crop-picker';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const URL =
   'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
@@ -29,6 +31,9 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
   const [coverImage, setCoverImage] = useState('');
   const [other, setOther] = useState('other');
 
+  useEffect(() => {
+    console.log(uid);
+  }, []);
   const toggleEditClub = club => {
     if (!editClub) {
       setSelectedClub(club);
@@ -50,20 +55,24 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
 
   const handleSubmit = () => {
     console.log(selectedClub.id);
+
     axios
-      .put(`${URL}/clubs/${selectedClub.id}`, {
-        name: name,
-        description: description,
-        meetingInfo: meetingInfo,
-        website: website,
-        instagram: instagram,
-        facebook: facebook,
-        twitter: twitter,
-        coverImage: coverImage,
-        other: other,
-        userId: uid,
-        email: email,
-      })
+      .put(
+        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/1OTGkZIdktKYnwSeE3Nl`,
+        {
+          name: 'gaepepe',
+          description: 'pepega',
+          meetingInfo: 'pepega',
+          website: 'pepega.com',
+          instagram: 'Pepega',
+          facebook: 'pepega',
+          twitter: 'pepega',
+          coverImage: 'https://i.redd.it/ng9l0ssjf8o11.png',
+          other: 'pepega',
+          userId: 'pepega',
+          email: 'pepega@gmail.com',
+        },
+      )
       .then(res => console.log('res', res))
       .catch(e => console.log('Error putting to server', e.response));
   };
