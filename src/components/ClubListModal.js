@@ -9,7 +9,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import {ClubFormInfo} from './ClubFormInfo';
 
-const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
+const ClubListModal = ({isVisible, toggle, clubList, changeClubList, uid}) => {
   const [clubs, setClubs] = useState([]);
   const [editClub, setEditClub] = useState(false);
   const [selectedClub, setSelectedClub] = useState(null);
@@ -29,7 +29,7 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
   useEffect(() => {
     setClubs(clubList);
     setflag(true);
-  });
+  }, []);
 
   const toggleEditClub = club => {
     if (!editClub) {
@@ -64,32 +64,42 @@ const ClubListModal = ({isVisible, toggle, clubList, uid}) => {
   };
 
   const handleSubmit = () => {
+    console.log('HANDLE SUBMIT');
+    const newinfo = {
+      name: name,
+      description: description,
+      meetingInfo: coverImage,
+      website: website,
+      instagram: instagram,
+      facebook: facebook,
+      twitter: twitter,
+      coverImage: coverImage
+        ? coverImage
+        : 'https://i.redd.it/2l2av8at5sn31.jpg',
+      other: other,
+      userId: uid,
+      email: email,
+    };
     axios
       .put(
         `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/${
           selectedClub.id
         }`,
-        {
-          name: name,
-          description: description,
-          meetingInfo: coverImage,
-          website: website,
-          instagram: instagram,
-          facebook: facebook,
-          twitter: twitter,
-          coverImage: coverImage
-            ? coverImage
-            : 'https://i.redd.it/2l2av8at5sn31.jpg',
-          other: other,
-          userId: uid,
-          email: email,
-        },
+        newinfo,
       )
       .then(res => {
         // console.log('NEWNAME', name);
-        setEditClub(!editClub);
-        toggle();
-        history.push('/BigBrain');
+        // setEditClub(!editClub);
+        // toggle();
+        changeClubList(
+          clubList.map(club => {
+            if (club.id === selectedClub.id)
+              return {id: club.id, data: newinfo};
+            else return club;
+          }),
+        );
+        console.log('WE IN HERE');
+        // history.push('/BigBrain');
         // window.location.reload();
         // location.reload();
       })

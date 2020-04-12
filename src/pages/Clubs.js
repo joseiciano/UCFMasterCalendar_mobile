@@ -73,6 +73,8 @@ export default class Clubs extends Component {
     });
   }
 
+  changeClubList = list => this.setState({clubs: list});
+
   toggleClubForm = () =>
     this.setState({showClubForm: !this.state.showClubForm});
 
@@ -85,11 +87,14 @@ export default class Clubs extends Component {
         <ClubModalForm
           isVisible={this.state.showClubForm}
           toggle={this.toggleClubForm}
+          clubList={this.state.clubs}
+          changeClublist={this.changeClubList}
         />
         <ClubListModal
           isVisible={this.state.showClubList}
           toggle={this.toggleClubList}
           clubList={this.state.userClubs}
+          changeClubList={this.changeClubList}
           uid={this.state.uid}
         />
         <Lister

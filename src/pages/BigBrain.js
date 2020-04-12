@@ -14,7 +14,7 @@ const BigBrain = () => {
   }, []);
   return (
     <View>
-      <Text>Hello</Text>
+      <Text>If you see this, well we fucked up somewhere</Text>
     </View>
   );
 };

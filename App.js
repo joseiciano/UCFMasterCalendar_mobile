@@ -16,7 +16,7 @@ export default class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path="/Events" component={Events} />
             <Route exact path="/Clubs" component={Clubs} />
-            <Route exact path="/Bigbrain" component={BigBrain} />
+            {/* <Route exact path="/Bigbrain" component={BigBrain} /> */}
           </Switch>
         </BackButton>
       </NativeRouter>

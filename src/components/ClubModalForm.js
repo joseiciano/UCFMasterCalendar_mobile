@@ -10,7 +10,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import {ClubFormInfo} from './ClubFormInfo';
 
-const ClubModalForm = ({isVisible, toggle}) => {
+const ClubModalForm = ({isVisible, toggle, clubList, changeClubList}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('email');
@@ -83,28 +83,30 @@ const ClubModalForm = ({isVisible, toggle}) => {
   };
 
   const handleSubmit = () => {
+    const newinfo = {
+      name: name,
+      description: description,
+      meetingInfo: meetingInfo,
+      website: website,
+      instagram: instagram,
+      facebook: facebook,
+      twitter: twitter,
+      coverImage: coverImage
+        ? coverImage
+        : 'https://i.redd.it/2l2av8at5sn31.jpg',
+      other: other,
+      userId: uid,
+      email: email,
+    };
     axios
       .post(
         `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
-        {
-          name: name,
-          description: description,
-          meetingInfo: meetingInfo,
-          website: website,
-          instagram: instagram,
-          facebook: facebook,
-          twitter: twitter,
-          coverImage: coverImage
-            ? coverImage
-            : 'https://i.redd.it/2l2av8at5sn31.jpg',
-          other: other,
-          userId: uid,
-          email: email,
-        },
+        newinfo,
       )
       .then(res => {
-        toggle();
-        history.push('/BigBrain');
+        // toggle();
+        // changeClubList([...clubList, ]))
+        // history.push('/BigBrain');
       })
       .then(res => history.push('/Clubs'))
       .catch(e => console.log('Error posting to server', e.response));
