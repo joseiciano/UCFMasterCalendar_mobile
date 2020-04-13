@@ -113,7 +113,7 @@ const ClubModalForm = ({isVisible, toggle, remount}) => {
   };
 
   if (redirectFlag) {
-    return <Redirect push to="/" />;
+    return <Redirect push to="/Bigbrain" />;
   }
   return (
     <Modal

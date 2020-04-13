@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {Link} from 'react-router-native';
 import {useHistory} from 'react-router-native';
 import Login from './Login';
 import Register from './Register';
+import {Redirect} from 'react-router-native';
 import * as firebase from 'firebase/app';
 
 const Navbar = ({
@@ -16,6 +16,7 @@ const Navbar = ({
   const [loginModal, setLoginModal] = useState(false);
   const [registerModal, setRegisterModal] = useState(false);
   const [signInState, setSignInState] = useState(false);
+  const [etFlag, setETFlag] = useState(false);
   const history = useHistory();
 
   const toggleLogin = () => setLoginModal(!loginModal);
@@ -23,7 +24,8 @@ const Navbar = ({
 
   const logout = () => {
     firebase.auth().signOut();
-    history.push('/');
+
+    if (history.location.pathname !== '/') setETFlag(true);
   };
 
   useEffect(() => {
@@ -32,13 +34,23 @@ const Navbar = ({
         setSignInState(true);
       }
     });
+    setETFlag(false);
   }, []);
+
+  if (etFlag) {
+    if (history.location.pathname !== '/') return <Redirect push to="/" />;
+  }
 
   return (
     <View style={styles.navBar}>
       <Login isVisible={loginModal} toggle={toggleLogin} />
       <Register isVisible={registerModal} toggle={toggleRegister} />
-      <Text style={styles.nameBtn}>{leftText}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          if (history.location.pathname !== '/') setETFlag(true);
+        }}>
+        <Text style={styles.nameBtn}>{leftText}</Text>
+      </TouchableOpacity>
 
       {!signInState && (
         <TouchableOpacity

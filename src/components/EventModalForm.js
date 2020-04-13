@@ -7,10 +7,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Button, Divider} from 'react-native-elements';
-import axios from 'axios';
-import * as firebase from 'firebase/app';
 import Modal from 'react-native-modal';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {Redirect} from 'react-router-native';
+import axios from 'axios';
 
 const EventModalForm = ({isVisible, toggle, eventList, changeEventList}) => {
   const [name, setName] = useState('');
@@ -23,6 +23,7 @@ const EventModalForm = ({isVisible, toggle, eventList, changeEventList}) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [startTimeVisible, setStartTimeVisible] = useState(false);
   const [endTimeVisible, setEndTimeVisible] = useState(false);
+  const [redirectFlag, setRedirectFlag] = useState(false);
 
   const reset = () => {
     setName('');
@@ -34,9 +35,29 @@ const EventModalForm = ({isVisible, toggle, eventList, changeEventList}) => {
   };
 
   const handleSubmit = () => {
-    console.log('datepicker', date);
+    const newinfo = {
+      title: name,
+      description: description,
+      startTime: startTime,
+      endTime: endTime,
+      date: date,
+      club: '',
+      location: location,
+    };
+    axios
+      .post(
+        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/events`,
+        newinfo,
+      )
+      .then(res => {
+        setRedirectFlag(true);
+      })
+      .catch(e => console.log('Error posting to server', e));
   };
 
+  if (redirectFlag) {
+    return <Redirect push to="/Bigbrain" />;
+  }
   return (
     <Modal
       isVisible={isVisible}

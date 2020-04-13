@@ -6,12 +6,6 @@ import axios from 'axios';
 import * as firebase from 'firebase/app';
 import {EventModalForm} from '../components/EventModalForm';
 
-/*
-GET all clubs: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs
-POST create club: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs
-GET an event: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/:club/events/:id
-GET all events: https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/:club/events
-*/
 const days = [
   'Monday',
   'Tuesday',

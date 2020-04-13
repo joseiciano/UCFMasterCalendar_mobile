@@ -118,7 +118,7 @@ const ClubListModal = ({isVisible, toggle, clubList, userClubList, uid}) => {
   };
 
   if (redirectFlag) {
-    return <Redirect push to="/Home" />;
+    return <Redirect push to="/Bigbrain" />;
   }
   return (
     <Modal
