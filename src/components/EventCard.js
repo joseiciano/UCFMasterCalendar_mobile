@@ -3,8 +3,32 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {Card, Button, Row, Col} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
+import moment from 'moment';
 import {EventModalInfo} from './EventModalInfo';
 
+const days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 const windowWidth = Dimensions.get('window').width;
 
 const EventCard = ({event}) => {
@@ -16,20 +40,16 @@ const EventCard = ({event}) => {
   };
 
   useEffect(() => {
-    const curstart = new Date(event.startTime * 1000);
-    const curend = new Date(
-      (event.endTime ? event.endTime : event.startTime) * 1000,
-    );
+    const curstart = new Date(event.data.startTime);
+    const curend = new Date(event.data.endTime);
 
-    console.log(curstart);
-    console.log('EVENT START', event.startTime);
-    console.log(curend);
-    // setStart(curstart.toISOString());
-    // setEnd(curend.toISOString());
-    // console.log('event', event);
+    const starti = moment(curstart).format('MMMM Do YYYY, h:mm:ss a');
+    const endi = moment(curend).format('MMMM Do YYYY, h:mm:ss a');
+
+    setStart(starti);
+    setEnd(endi);
   }, []);
 
-  console.log('event', event);
   return (
     <Card
       containerStyle={{
@@ -50,7 +70,7 @@ const EventCard = ({event}) => {
           endDate={event.endDate}
           endTime={event.endTime}
         /> */}
-        <Text style={styles.title}>{event.title ? event.title : ''}</Text>
+        <Text style={styles.title}>{event.data.title}</Text>
         <View flexDirection="row">
           <Text style={styles.clubIntro}>Hosted by </Text>
           <Text style={styles.club}>Knight Hacks</Text>
@@ -63,9 +83,7 @@ const EventCard = ({event}) => {
             onPress={() => console.log('pressed icon')}
             style={{color: 'black', top: '7.5%'}}
           />
-          <Text style={styles.date}>
-            {event.startTime ? event.startTime : ''}
-          </Text>
+          <Text style={styles.date}>{start}</Text>
         </View>
         <View style={{flexDirection: 'row'}}>
           <Ionicons
@@ -75,7 +93,7 @@ const EventCard = ({event}) => {
             style={{color: 'black'}}
           />
           <Text style={styles.location}>
-            {event.location && event.location.toUpperCase()}
+            {event.data.location && event.data.location.toUpperCase()}
           </Text>
         </View>
       </TouchableOpacity>
