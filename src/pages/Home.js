@@ -78,7 +78,7 @@ export default class Home extends Component {
           curevent['location'] = event.location;
           curevent['description'] = event.description;
 
-          const start = new Date(event.startTime._seconds * 1000);
+          const start = new Date(event.startTime * 1000);
           let day = days[start.getDay() - 1];
           let month = months[start.getMonth() - 1];
           let year = start.getFullYear();

@@ -50,7 +50,7 @@ export default class Events extends Component {
     super(props);
     this.state = {
       events: [],
-      userEvents: [],
+      userClubs: [],
       showModal: false,
       showEventForm: false,
       showEventList: false,
@@ -64,53 +64,43 @@ export default class Events extends Component {
       .get(`${URL}/events`)
       .then(res => {
         for (let idx in res.data) {
-          const event = res.data[idx];
-          const curevent = {};
-
-          curevent['id'] = event.id;
-          event = event.data;
-          curevent['title'] = event.title;
-          curevent['clubId'] = event.clubId;
-          curevent['location'] = event.location;
-          curevent['description'] = event.description;
-
-          const start = new Date(event.startTime._seconds * 1000);
-          let day = days[start.getDay() - 1];
-          let month = months[start.getMonth() - 1];
-          let year = start.getFullYear();
-          let date = start.getDate();
-          let dateending =
-            date === '11' || date === '12' ? 'th' : dateendings[date % 10];
-
-          const startTime = start
-            .toTimeString()
-            .replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
-
-          const fullStartDate = `${day}, ${month} ${date}${dateending}, ${year}`;
-
-          const end = new Date(event.endTime._seconds * 1000);
-          day = days[end.getDay() - 1];
-          month = months[end.getMonth() - 1];
-          year = end.getFullYear();
-          date = end.getDate();
-          dateending =
-            date === '11' || date === '12' ? 'th' : dateendings[date % 10];
-
-          const endTime = end
-            .toTimeString()
-            .replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
-
-          const fullEndDate = `${day}, ${month} ${date}${dateending}, ${year}`;
-
-          curevent['startDate'] = fullStartDate;
-          curevent['startTime'] = startTime;
-          curevent['endDate'] = fullEndDate;
-          curevent['endTime'] = endTime;
-          eventsList.push(curevent);
+          // console.log('ERRRRR', res.data[idx]);
+          if (typeof res.data[idx].startTime !== 'number') {
+            // console.log(res.data[idx]);
+            eventsList.push(res.data[idx]);
+          }
         }
       })
       .then(res => this.setState({events: eventsList}))
       .catch(e => console.log('error getting list of events', e));
+
+    const userClubs = [];
+    firebase.auth().onAuthStateChanged(user => {
+      let uid;
+      if (user) {
+        uid = user.uid;
+      }
+
+      axios
+        .get(`${URL}/clubs`)
+        .then(res => {
+          for (let idx in res.data) {
+            const clubId = res.data[idx].id;
+            const clubUid = res.data[idx].data.userId;
+            const clubName = res.data[idx].data.name;
+
+            if (uid === clubUid) {
+              userClubs.push({
+                clubId: clubId,
+                userId: clubUid,
+                clubName: clubName,
+              });
+            }
+          }
+          this.setState({userClubs: userClubs}, () => {});
+        })
+        .catch(e => console.log('error', e));
+    });
   }
 
   toggleEventForm = () => {
@@ -130,6 +120,7 @@ export default class Events extends Component {
           isVisible={this.state.showEventForm}
           toggle={this.toggleEventForm}
           eventList={this.state.events}
+          userClubs={this.state.userClubs}
           changeEventList={list => this.setState({events: list})}
         />
         <Lister

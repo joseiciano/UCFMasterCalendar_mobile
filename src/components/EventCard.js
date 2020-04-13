@@ -9,15 +9,27 @@ const windowWidth = Dimensions.get('window').width;
 
 const EventCard = ({event}) => {
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
 
-  // useEffect(() => {
-  //   console.log('event', event);
-  // }, []);
+  useEffect(() => {
+    const curstart = new Date(event.startTime * 1000);
+    const curend = new Date(
+      (event.endTime ? event.endTime : event.startTime) * 1000,
+    );
 
+    console.log(curstart);
+    console.log('EVENT START', event.startTime);
+    console.log(curend);
+    // setStart(curstart.toISOString());
+    // setEnd(curend.toISOString());
+    // console.log('event', event);
+  }, []);
+
+  console.log('event', event);
   return (
     <Card
       containerStyle={{
@@ -26,7 +38,7 @@ const EventCard = ({event}) => {
         borderColor: '#03A9F4',
       }}>
       <TouchableOpacity onPress={toggleModal} style={{marginLeft: 5}}>
-        <EventModalInfo
+        {/* <EventModalInfo
           isVisible={modalVisible}
           toggle={toggleModal}
           title={event.title}
@@ -37,8 +49,8 @@ const EventCard = ({event}) => {
           startDate={event.startDate}
           endDate={event.endDate}
           endTime={event.endTime}
-        />
-        <Text style={styles.title}>{event.title}</Text>
+        /> */}
+        <Text style={styles.title}>{event.title ? event.title : ''}</Text>
         <View flexDirection="row">
           <Text style={styles.clubIntro}>Hosted by </Text>
           <Text style={styles.club}>Knight Hacks</Text>
@@ -51,11 +63,10 @@ const EventCard = ({event}) => {
             onPress={() => console.log('pressed icon')}
             style={{color: 'black', top: '7.5%'}}
           />
-          <Text style={styles.date}>{event.startDate}</Text>
+          <Text style={styles.date}>
+            {event.startTime ? event.startTime : ''}
+          </Text>
         </View>
-        <Text style={styles.time}>
-          {event.startTime} to {event.endTime}
-        </Text>
         <View style={{flexDirection: 'row'}}>
           <Ionicons
             name="md-pin"

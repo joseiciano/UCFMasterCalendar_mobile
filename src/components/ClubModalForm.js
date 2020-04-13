@@ -2,13 +2,12 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {Divider} from 'react-native-elements';
 import axios from 'axios';
-import firebase from 'firebase';
-import 'firebase/auth';
 import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import {ClubFormInfo} from './ClubFormInfo';
 import {Redirect} from 'react-router-native';
+import * as firebase from 'firebase';
 
 const memes = [];
 // Bug: 5% of the time just randomly goes to a random page and everything breaks
