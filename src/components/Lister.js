@@ -116,9 +116,17 @@ class Lister extends Component {
                   />
                 );
               case 'events':
-                return this.props.list.map((event, idx) => (
-                  <EventCard key={idx} event={event} />
-                ));
+                // console.log(this.props);
+                return this.props.list.map((event, idx) => {
+                  return (
+                    <EventCard
+                      key={idx}
+                      event={event}
+                      clubs={this.props.clubs}
+                    />
+                    // <Text>{this.props.clubs[0].name}</Text>
+                  );
+                });
               case 'clubs':
                 return this.props.list.map((club, idx) => (
                   <ClubCard key={idx} club={club} />

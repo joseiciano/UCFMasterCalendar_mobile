@@ -31,13 +31,14 @@ const months = [
 ];
 const windowWidth = Dimensions.get('window').width;
 
-const EventCard = ({event}) => {
+const EventCard = ({event, clubs}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
+  const [clubName, setClubName] = useState('');
 
   const toggleModal = () => {
-    console.log('pepega');
+    // console.log('pepega');
 
     setModalVisible(!modalVisible);
   };
@@ -49,6 +50,9 @@ const EventCard = ({event}) => {
     const starti = moment(curstart).format('MMMM Do YYYY, h:mm:ss a');
     const endi = moment(curend).format('MMMM Do YYYY, h:mm:ss a');
 
+    // console.log('PEPEGA', clubs);
+    const club = clubs.filter(club => club.clubId === event.data.clubId)[0];
+    setClubName(club);
     setStart(starti);
     setEnd(endi);
   }, []);
@@ -67,6 +71,7 @@ const EventCard = ({event}) => {
           title={event.data.title}
           location={event.data.location}
           clubId={event.data.clubId}
+          clubName={clubName}
           description={event.data.description}
           startTime={start}
           endTime={end}
@@ -74,7 +79,7 @@ const EventCard = ({event}) => {
         <Text style={styles.title}>{event.data.title}</Text>
         <View flexDirection="row">
           <Text style={styles.clubIntro}>Hosted by </Text>
-          <Text style={styles.club}>Knight Hacks</Text>
+          <Text style={styles.club}>{clubName.name}</Text>
         </View>
 
         <View style={{flexDirection: 'row'}}>

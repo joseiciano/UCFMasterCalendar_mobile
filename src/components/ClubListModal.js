@@ -27,7 +27,7 @@ const ClubListModal = ({isVisible, toggle, clubList, userClubList, uid}) => {
   const [other, setOther] = useState('other');
   const [redirectFlag, setRedirectFlag] = useState(false);
 
-  console.log('clublist', clubList);
+  // console.log('clublist', clubList);
   const toggleEditClub = club => {
     if (!editClub) {
       setSelectedClub(club);
@@ -162,7 +162,7 @@ const ClubListModal = ({isVisible, toggle, clubList, userClubList, uid}) => {
 
         {!editClub &&
           userClubList.map((club, idx) => {
-            console.log('club', club);
+            // console.log('club', club);
             return (
               <View key={idx} style={styles.subcontainer}>
                 <TouchableOpacity
