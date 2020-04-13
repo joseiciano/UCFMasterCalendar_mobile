@@ -11,17 +11,15 @@ const EventModalInfo = ({
   clubId,
   description,
   startTime,
-  startDate,
-  endTime,
-  enddate,
 }) => {
   const handleRegister = () => {
     console.log('pepega submit');
   };
 
-  // useEffect(() => {
-  //   console.log('card', location);
-  // }, []);
+  useEffect(() => {
+    console.log('title', title);
+    // console.log('card', location);
+  }, []);
 
   return (
     <Modal
@@ -47,60 +45,42 @@ const EventModalInfo = ({
         </View>
 
         <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Event Name</Text>
-          <TextInput value={title} editable={false} style={styles.input} />
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subheader}>Name: {title}</Text>
+          </View>
+
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Host Name</Text>
-          <TextInput value={clubId} editable={false} style={styles.input} />
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subheader}>Who: {clubId}</Text>
+          </View>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Description</Text>
-          <TextInput
-            value={description}
-            multiline
-            editable={false}
-            style={styles.input}
-          />
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subheader}>What: {description}</Text>
+          </View>
+
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Location</Text>
-          <TextInput value={location} editable={false} style={styles.input} />
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subheader}>When: {startTime}</Text>
+          </View>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Date</Text>
-          <TextInput value={startDate} editable={false} style={styles.input} />
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subheader}>Where: {location}</Text>
+          </View>
           <Divider style={styles.divider} />
         </View>
 
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Start Time</Text>
-          <TextInput value={startTime} editable={false} style={styles.input} />
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>End Time</Text>
-          <TextInput value={endTime} editable={false} style={styles.input} />
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Button
-            title="Submit"
-            buttonStyle={styles.submitButton}
-            titleStyle={{color: '#03A9F4'}}
-            onPress={handleRegister}
-          />
-        </View>
         <View style={{flex: 1, marginBottom: '5%'}} />
       </ScrollView>
     </Modal>

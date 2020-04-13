@@ -35,7 +35,10 @@ const EventCard = ({event}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [start, setStart] = useState('');
   const [end, setEnd] = useState('');
+
   const toggleModal = () => {
+    console.log('pepega');
+
     setModalVisible(!modalVisible);
   };
 
@@ -58,18 +61,16 @@ const EventCard = ({event}) => {
         borderColor: '#03A9F4',
       }}>
       <TouchableOpacity onPress={toggleModal} style={{marginLeft: 5}}>
-        {/* <EventModalInfo
+        <EventModalInfo
           isVisible={modalVisible}
           toggle={toggleModal}
-          title={event.title}
-          location={event.location}
-          clubId={event.clubId}
-          description={event.description}
-          startTime={event.startTime}
-          startDate={event.startDate}
-          endDate={event.endDate}
-          endTime={event.endTime}
-        /> */}
+          title={event.data.title}
+          location={event.data.location}
+          clubId={event.data.clubId}
+          description={event.data.description}
+          startTime={start}
+          endTime={end}
+        />
         <Text style={styles.title}>{event.data.title}</Text>
         <View flexDirection="row">
           <Text style={styles.clubIntro}>Hosted by </Text>

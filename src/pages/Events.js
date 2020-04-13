@@ -1,46 +1,10 @@
 import React, {Component} from 'react';
 import {View, Text, Button, ScrollView, StyleSheet} from 'react-native';
 import {Lister} from '../components/Lister.js';
-import eventPic from '../assets/images/eventPic.png';
 import axios from 'axios';
 import * as firebase from 'firebase/app';
+import {EventListModal} from '../components/EventListModal';
 import {EventModalForm} from '../components/EventModalForm';
-
-const days = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
-const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-const dateendings = [
-  'th',
-  'st',
-  'nd',
-  'rd',
-  'th',
-  'th',
-  'th',
-  'th',
-  'th',
-  'th',
-];
 
 const URL =
   'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
@@ -121,7 +85,12 @@ export default class Events extends Component {
           toggle={this.toggleEventForm}
           eventList={this.state.events}
           userClubs={this.state.userClubs}
-          changeEventList={list => this.setState({events: list})}
+        />
+        <EventListModal
+          isVisible={this.state.showEventList}
+          toggle={this.toggleEventList}
+          eventList={this.state.events}
+          userClubs={this.state.userClubs}
         />
         <Lister
           title={'Events'}

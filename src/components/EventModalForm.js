@@ -14,13 +14,7 @@ import axios from 'axios';
 import firebase from 'firebase';
 import 'firebase/auth';
 
-const EventModalForm = ({
-  isVisible,
-  toggle,
-  eventList,
-  changeEventList,
-  userClubs,
-}) => {
+const EventModalForm = ({isVisible, toggle, eventList, userClubs}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [startTime, setStartTime] = useState('');

@@ -90,19 +90,19 @@ export default class Clubs extends Component {
   render() {
     return (
       <View key={this.state.unique} style={{flex: 1}}>
-        <ClubModalForm
-          isVisible={this.state.showClubForm}
-          toggle={this.toggleClubForm}
-          clubList={this.state.clubs}
-          changeClubList={list => this.setState({clubs: list})}
-          remount={this.remount}
-        />
         <ClubListModal
           isVisible={this.state.showClubList}
           toggle={this.toggleClubList}
           clubList={this.state.clubs}
           userClubList={this.state.userClubs}
           uid={this.state.uid}
+        />
+        <ClubModalForm
+          isVisible={this.state.showClubForm}
+          toggle={this.toggleClubForm}
+          clubList={this.state.clubs}
+          changeClubList={list => this.setState({clubs: list})}
+          remount={this.remount}
         />
         <Lister
           title="Clubs"
