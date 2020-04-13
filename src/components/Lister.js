@@ -58,6 +58,7 @@ class Lister extends Component {
                   />
                 );
               case 'eventstitle':
+                // console.log('ITEM', item);
                 return (
                   <View style={styles.titleWrapper}>
                     <Text style={styles.title}>{this.props.title}</Text>

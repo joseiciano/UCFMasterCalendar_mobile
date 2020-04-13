@@ -4,16 +4,12 @@ import axios from 'axios';
 import * as firebase from 'firebase/app';
 import {Button} from 'react-native-elements';
 import Register from '../components/Register';
-import Login from '../components/Login';
 
-import clubPic from '../assets/images/clubPic.jpg';
-import eventPic from '../assets/images/eventPic.png';
 import techHeart from '../assets/images/smallHeart.png';
 import {Navbar} from '../components/Navbar';
 import {ImageShower} from '../components/ImageShower';
 import {EventCard} from '../components/EventCard';
 import {ClubCard} from '../components/ClubCard';
-import {EventModalInfo} from '../components/EventModalInfo';
 
 const days = [
   'Monday',
@@ -73,48 +69,7 @@ export default class Home extends Component {
       .then(res => {
         for (let idx in res.data) {
           const event = res.data[idx];
-          const curevent = {};
-
-          curevent['id'] = event.id;
-          event = event.data;
-          curevent['title'] = event.title;
-          curevent['clubId'] = event.clubId;
-          curevent['location'] = event.location;
-          curevent['description'] = event.description;
-
-          const start = new Date(event.startTime._seconds * 1000);
-          let day = days[start.getDay() - 1];
-          let month = months[start.getMonth() - 1];
-          let year = start.getFullYear();
-          let date = start.getDate();
-          let dateending =
-            date === '11' || date === '12' ? 'th' : dateendings[date % 10];
-
-          const startTime = start
-            .toTimeString()
-            .replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
-
-          const fullStartDate = `${day}, ${month} ${date}${dateending}, ${year}`;
-
-          const end = new Date(event.endTime._seconds * 1000);
-          day = days[end.getDay() - 1];
-          month = months[end.getMonth() - 1];
-          year = end.getFullYear();
-          date = end.getDate();
-          dateending =
-            date === '11' || date === '12' ? 'th' : dateendings[date % 10];
-
-          const endTime = end
-            .toTimeString()
-            .replace(/.*(\d{2}:\d{2}:\d{2}).*/, '$1');
-
-          const fullEndDate = `${day}, ${month} ${date}${dateending}, ${year}`;
-
-          curevent['startDate'] = fullStartDate;
-          curevent['startTime'] = startTime;
-          curevent['endDate'] = fullEndDate;
-          curevent['endTime'] = endTime;
-          eventsList.push(curevent);
+          eventsList.push(event);
         }
       })
       .then(res =>
@@ -214,7 +169,12 @@ export default class Home extends Component {
               buttonStyle={styles.listButton}
               title="View All Clubs"
               titleStyle={{color: '#03A9F4'}}
-              onPress={() => history.push('/Clubs')}
+              onPress={() =>
+                history.push({
+                  pathname: '/Clubs',
+                  state: {clubsList: this.state.clubs},
+                })
+              }
             />
             <View style={{marginTop: '5%'}} />
           </View>

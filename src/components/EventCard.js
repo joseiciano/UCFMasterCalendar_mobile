@@ -3,20 +3,55 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import {Card, Button, Row, Col} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Dimensions} from 'react-native';
+import moment from 'moment';
 import {EventModalInfo} from './EventModalInfo';
 
+const days = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
+];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 const windowWidth = Dimensions.get('window').width;
 
 const EventCard = ({event}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [start, setStart] = useState('');
+  const [end, setEnd] = useState('');
 
   const toggleModal = () => {
+    console.log('pepega');
+
     setModalVisible(!modalVisible);
   };
 
-  // useEffect(() => {
-  //   console.log('event', event);
-  // }, []);
+  useEffect(() => {
+    const curstart = new Date(event.data.startTime);
+    const curend = new Date(event.data.endTime);
+
+    const starti = moment(curstart).format('MMMM Do YYYY, h:mm:ss a');
+    const endi = moment(curend).format('MMMM Do YYYY, h:mm:ss a');
+
+    setStart(starti);
+    setEnd(endi);
+  }, []);
 
   return (
     <Card
@@ -29,16 +64,14 @@ const EventCard = ({event}) => {
         <EventModalInfo
           isVisible={modalVisible}
           toggle={toggleModal}
-          title={event.title}
-          location={event.location}
-          clubId={event.clubId}
-          description={event.description}
-          startTime={event.startTime}
-          startDate={event.startDate}
-          endDate={event.endDate}
-          endTime={event.endTime}
+          title={event.data.title}
+          location={event.data.location}
+          clubId={event.data.clubId}
+          description={event.data.description}
+          startTime={start}
+          endTime={end}
         />
-        <Text style={styles.title}>{event.title}</Text>
+        <Text style={styles.title}>{event.data.title}</Text>
         <View flexDirection="row">
           <Text style={styles.clubIntro}>Hosted by </Text>
           <Text style={styles.club}>Knight Hacks</Text>
@@ -51,11 +84,8 @@ const EventCard = ({event}) => {
             onPress={() => console.log('pressed icon')}
             style={{color: 'black', top: '7.5%'}}
           />
-          <Text style={styles.date}>{event.startDate}</Text>
+          <Text style={styles.date}>{start}</Text>
         </View>
-        <Text style={styles.time}>
-          {event.startTime} to {event.endTime}
-        </Text>
         <View style={{flexDirection: 'row'}}>
           <Ionicons
             name="md-pin"
@@ -64,7 +94,7 @@ const EventCard = ({event}) => {
             style={{color: 'black'}}
           />
           <Text style={styles.location}>
-            {event.location && event.location.toUpperCase()}
+            {event.data.location && event.data.location.toUpperCase()}
           </Text>
         </View>
       </TouchableOpacity>

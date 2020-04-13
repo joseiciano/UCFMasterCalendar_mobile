@@ -3,7 +3,7 @@ import {View, Text, ScrollView, TextInput} from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
 
-const EventModalInfo = ({
+const EventListModal = ({
   isVisible,
   toggle,
   title,
@@ -45,49 +45,55 @@ const EventModalInfo = ({
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Name: {title}</Text>
-          </View>
-
+          <Text style={styles.subheader}>Event Name</Text>
+          <TextInput value={title} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Who: {clubId}</Text>
-          </View>
+          <Text style={styles.subheader}>Who</Text>
+          <TextInput value={clubId} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>What: {description}</Text>
-          </View>
-
+          <Text style={styles.subheader}>What</Text>
+          <TextInput
+            value={description}
+            multiline
+            editable={false}
+            style={styles.input}
+          />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>When: {startTime}</Text>
-          </View>
+          <Text style={styles.subheader}>When</Text>
+          <TextInput value={startTime} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Where: {location}</Text>
-          </View>
+          <Text style={styles.subheader}>Where</Text>
+          <TextInput value={location} editable={false} style={styles.input} />
           <Divider style={styles.divider} />
         </View>
 
+        <View style={styles.subcontainer}>
+          <Button
+            title="Submit"
+            buttonStyle={styles.submitButton}
+            titleStyle={{color: '#03A9F4'}}
+            onPress={handleRegister}
+          />
+        </View>
         <View style={{flex: 1, marginBottom: '5%'}} />
       </ScrollView>
     </Modal>
   );
 };
 
-export {EventModalInfo};
+export {EventListModal};
 
 const styles = {
   subcontainer: {

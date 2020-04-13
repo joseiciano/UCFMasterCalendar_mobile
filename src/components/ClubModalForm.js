@@ -1,25 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
-import {Button, Divider} from 'react-native-elements';
+import {View, Text, ScrollView} from 'react-native';
+import {Divider} from 'react-native-elements';
 import axios from 'axios';
-import firebase from 'firebase';
-import 'firebase/auth';
-import queryString from 'query-string';
 import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'rn-fetch-blob';
-// import Flag from 'react-native-flags';
+import {ClubFormInfo} from './ClubFormInfo';
+import {Redirect} from 'react-router-native';
+import * as firebase from 'firebase';
 
-const URL =
-  'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
-
-const ClubModalForm = ({isVisible, toggle}) => {
+const memes = [];
+// Bug: 5% of the time just randomly goes to a random page and everything breaks
+const ClubModalForm = ({isVisible, toggle, remount}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('email');
@@ -31,6 +23,7 @@ const ClubModalForm = ({isVisible, toggle}) => {
   const [coverImage, setCoverImage] = useState('');
   const [other, setOther] = useState('other');
   const [uid, setuid] = useState('');
+  const [redirectFlag, setRedirectFlag] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function(user) {
@@ -81,6 +74,7 @@ const ClubModalForm = ({isVisible, toggle}) => {
     });
   };
 
+  // console.log('test');
   const reset = () => {
     setName('');
     setDescription('');
@@ -91,24 +85,35 @@ const ClubModalForm = ({isVisible, toggle}) => {
   };
 
   const handleSubmit = () => {
+    const newinfo = {
+      name: name,
+      description: description,
+      meetingInfo: meetingInfo,
+      website: website,
+      instagram: instagram,
+      facebook: facebook,
+      twitter: twitter,
+      coverImage: coverImage
+        ? coverImage
+        : 'https://i.redd.it/2l2av8at5sn31.jpg',
+      other: other,
+      userId: uid,
+      email: email,
+    };
     axios
-      .post(`${URL}/clubs`, {
-        name: name,
-        description: description,
-        meetingInfo: meetingInfo,
-        website: website,
-        instagram: instagram,
-        facebook: facebook,
-        twitter: twitter,
-        coverImage: coverImage,
-        other: other,
-        userId: uid,
-        email: email,
+      .post(
+        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
+        newinfo,
+      )
+      .then(res => {
+        setRedirectFlag(true);
       })
-      .then(res => console.log('res', res))
-      .catch(e => console.log('Error posting to server', e.response));
+      .catch(e => console.log('Error posting to server', e));
   };
 
+  if (redirectFlag) {
+    return <Redirect push to="/Bigbrain" />;
+  }
   return (
     <Modal
       isVisible={isVisible}
@@ -125,137 +130,45 @@ const ClubModalForm = ({isVisible, toggle}) => {
           height: '100%',
           backgroundColor: 'white',
         }}>
-        <View style={{...styles.subcontainer, paddingTop: '8%'}}>
+        <View
+          style={{
+            flex: 1,
+            paddingLeft: '8%',
+            paddingRight: '8%',
+            paddingTop: '8%',
+          }}>
           <Text
             style={{fontFamily: 'Pacifico', fontSize: 20, textAlign: 'center'}}>
             Connecting Club To Account
           </Text>
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Club Name</Text>
-          <TextInput
-            onChangeText={text => setName(text)}
-            style={styles.input}
+          <Divider
+            style={{height: '0.15%', marginTop: '5%', backgroundColor: 'black'}}
           />
-          <Divider style={styles.divider} />
-        </View>
 
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Description</Text>
-          <TextInput
-            multiline
-            onChangeText={text => setDescription(text)}
-            style={styles.input}
-          />
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Meeting Information</Text>
-          <TextInput
-            multiline
-            onChangeText={text => setMeetingInfo(text)}
-            style={styles.input}
-          />
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>
-            Club Website (Need one social media)
-          </Text>
-          <TextInput
-            onChangeText={text => setWebsite(text)}
-            style={styles.input}
-          />
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>
-            Instagram (Need one social media)
-          </Text>
-          <TextInput
-            onChangeText={text => setInstagram(text)}
-            style={styles.input}
-          />
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Facebook (Need one social media)</Text>
-          <TextInput
-            onChangeText={text => setFacebook(text)}
-            style={styles.input}
-          />
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Twitter (Need one social media)</Text>
-          <TextInput
-            onChangeText={text => setTwitter(text)}
-            style={styles.input}
-          />
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Cover Image</Text>
-          <TouchableOpacity onPress={openGallery}>
-            <TextInput editable={false} style={styles.input} />
-          </TouchableOpacity>
-          <Divider style={styles.divider} />
-        </View>
-
-        <View style={styles.subcontainer}>
-          <Button
-            title="Submit"
-            buttonStyle={styles.submitButton}
-            titleStyle={{color: '#03A9F4'}}
-            onPress={handleSubmit}
+          <ClubFormInfo
+            nameValue={name}
+            onChangeName={text => setName(text)}
+            descValue={description}
+            onChangeDesc={text => setDescription(text)}
+            meetValue={meetingInfo}
+            onChangeMeet={text => setMeetingInfo(text)}
+            webValue={website}
+            onChangeWeb={text => setWebsite(text)}
+            instaValue={instagram}
+            onChangeInsta={text => setInstagram(text)}
+            faceValue={facebook}
+            onChangeFace={text => setFacebook(text)}
+            twitValue={twitter}
+            onChangeTwit={text => setTwitter(text)}
+            imageGallery={openGallery}
+            coverImage={coverImage}
+            handleSubmit={handleSubmit}
+            showTwoButtons={false}
           />
         </View>
-        <View style={{flex: 1, marginBottom: '5%'}} />
       </ScrollView>
     </Modal>
   );
 };
 
 export {ClubModalForm};
-
-const styles = {
-  subcontainer: {
-    flex: 1,
-    paddingLeft: '8%',
-    paddingRight: '8%',
-  },
-  subheader: {
-    fontSize: 17,
-    marginTop: '2%',
-    textAlign: 'center',
-  },
-  divider: {
-    height: '2%',
-    marginTop: '5%',
-    backgroundColor: 'black',
-  },
-  input: {
-    borderColor: 'black',
-    borderWidth: 1,
-    width: '100%',
-    borderRadius: 10,
-    backgroundColor: 'white',
-  },
-  submitButton: {
-    borderColor: '#03A9F4',
-    marginTop: '3%',
-    borderWidth: 1.5,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    marginLeft: '10%',
-    width: '80%',
-  },
-};
