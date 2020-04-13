@@ -4,25 +4,32 @@ import {Button, Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import * as firebase from 'firebase/app';
 import {useHistory} from 'react-router-native';
+import {Redirect} from 'react-router-native';
 
 const Register = ({isVisible, toggle}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [accmade, setAccmade] = useState(false);
   const history = useHistory();
 
   const handleRegister = e => {
-    e.preventDefault();
-
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(res => {
-        toggle();
-        history.push('/');
+        // toggle();
+        // history.push('/');
+        console.log('e in ');
+        setAccmade(true);
       })
       .catch(error => {
         console.log('error creating user', error);
       });
+  };
+
+  const exitToggle = () => {
+    firebase.auth().signOut();
+    toggle();
   };
 
   return (
@@ -48,34 +55,56 @@ const Register = ({isVisible, toggle}) => {
           <Divider style={styles.divider} />
         </View>
 
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Email</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={text => setEmail(text)}
-          />
-          <Divider style={styles.divider} />
-        </View>
+        {!accmade && (
+          <View style={styles.subcontainer}>
+            <Text style={styles.subheader}>Email</Text>
+            <TextInput
+              style={styles.input}
+              onChangeText={text => setEmail(text)}
+            />
+            <Divider style={styles.divider} />
+          </View>
+        )}
 
-        <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Password</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.input}
-            onChangeText={text => setPassword(text)}
-          />
-          <Divider style={styles.divider} />
-        </View>
+        {!accmade && (
+          <View style={styles.subcontainer}>
+            <Text style={styles.subheader}>Password</Text>
+            <TextInput
+              secureTextEntry={true}
+              style={styles.input}
+              onChangeText={text => setPassword(text)}
+            />
+            <Divider style={styles.divider} />
+          </View>
+        )}
+        {!accmade && (
+          <View style={styles.subcontainer}>
+            <Button
+              title="Register"
+              buttonStyle={styles.submitButton}
+              titleStyle={{color: '#03A9F4'}}
+              onPress={handleRegister}
+            />
+          </View>
+        )}
+        {accmade && (
+          <View style={styles.subcontainer}>
+            <Text style={styles.subheader}>Confirmation sent to {email}</Text>
 
-        <View style={styles.subcontainer}>
-          <Button
-            title="Register"
-            buttonStyle={styles.submitButton}
-            titleStyle={{color: '#03A9F4'}}
-            onPress={handleRegister}
-          />
-        </View>
+            <Divider style={styles.divider} />
+          </View>
+        )}
 
+        {accmade && (
+          <View style={styles.subcontainer}>
+            <Button
+              title="Exit"
+              buttonStyle={styles.submitButton}
+              titleStyle={{color: '#03A9F4'}}
+              onPress={toggle}
+            />
+          </View>
+        )}
         <View style={{flex: 1, marginBottom: '5%'}} />
       </ScrollView>
     </Modal>

@@ -38,7 +38,7 @@ const Navbar = ({
   }, []);
 
   if (etFlag) {
-    if (history.location.pathname !== '/') return <Redirect push to="/" />;
+    return <Redirect to="/Biggerbrain" />;
   }
 
   return (
@@ -47,7 +47,7 @@ const Navbar = ({
       <Register isVisible={registerModal} toggle={toggleRegister} />
       <TouchableOpacity
         onPress={() => {
-          if (history.location.pathname !== '/') setETFlag(true);
+          setETFlag(true);
         }}>
         <Text style={styles.nameBtn}>{leftText}</Text>
       </TouchableOpacity>
