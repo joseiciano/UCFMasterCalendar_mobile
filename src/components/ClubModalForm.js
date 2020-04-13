@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {Divider} from 'react-native-elements';
-import {useHistory} from 'react-router-native';
 import axios from 'axios';
 import firebase from 'firebase';
 import 'firebase/auth';
@@ -9,16 +8,11 @@ import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'rn-fetch-blob';
 import {ClubFormInfo} from './ClubFormInfo';
+import {Redirect} from 'react-router-native';
 
 const memes = [];
 // Bug: 5% of the time just randomly goes to a random page and everything breaks
-const ClubModalForm = ({
-  isVisible,
-  toggle,
-  clubList,
-  changeClubList,
-  remount,
-}) => {
+const ClubModalForm = ({isVisible, toggle, remount}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [email, setEmail] = useState('email');
@@ -30,11 +24,9 @@ const ClubModalForm = ({
   const [coverImage, setCoverImage] = useState('');
   const [other, setOther] = useState('other');
   const [uid, setuid] = useState('');
-  const [unique, setUnique] = useState(0);
-  const history = useHistory();
+  const [redirectFlag, setRedirectFlag] = useState(false);
 
   useEffect(() => {
-    // console.log('changeclublist', changeClubList);
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         setuid(user.uid);
@@ -94,7 +86,6 @@ const ClubModalForm = ({
   };
 
   const handleSubmit = () => {
-    // console.log('please');
     const newinfo = {
       name: name,
       description: description,
@@ -116,19 +107,16 @@ const ClubModalForm = ({
         newinfo,
       )
       .then(res => {
-        // changeClubList([...clubList, newinfo]);
-        // toggle();
-        remount();
-        console.log('IN HERE', res);
-        // remount();
-        // history.push('/Clubs');
+        setRedirectFlag(true);
       })
       .catch(e => console.log('Error posting to server', e));
   };
 
+  if (redirectFlag) {
+    return <Redirect push to="/" />;
+  }
   return (
     <Modal
-      key={unique}
       isVisible={isVisible}
       animationType="slide"
       onModalWillShow={reset}

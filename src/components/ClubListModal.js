@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, Text, ScrollView, TouchableOpacity} from 'react-native';
 import {Divider} from 'react-native-elements';
 import axios from 'axios';
@@ -6,17 +6,13 @@ import * as firebase from 'firebase/app';
 import Modal from 'react-native-modal';
 import ImagePicker from 'react-native-image-crop-picker';
 import RNFetchBlob from 'rn-fetch-blob';
+import {Redirect} from 'react-router-native';
 import {ClubFormInfo} from './ClubFormInfo';
 
-const ClubListModal = ({
-  isVisible,
-  toggle,
-  clubList,
-  changeClubList,
-  uid,
-  userClubs,
-  changeUserClubs,
-}) => {
+const url =
+  'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs';
+
+const ClubListModal = ({isVisible, toggle, clubList, userClubList, uid}) => {
   const [editClub, setEditClub] = useState(false);
   const [selectedClub, setSelectedClub] = useState(null);
   const [name, setName] = useState('');
@@ -29,7 +25,9 @@ const ClubListModal = ({
   const [twitter, setTwitter] = useState('');
   const [coverImage, setCoverImage] = useState('');
   const [other, setOther] = useState('other');
+  const [redirectFlag, setRedirectFlag] = useState(false);
 
+  console.log('clublist', clubList);
   const toggleEditClub = club => {
     if (!editClub) {
       setSelectedClub(club);
@@ -49,22 +47,14 @@ const ClubListModal = ({
 
   const handleDelete = club => {
     axios
-      .delete(
-        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/${
-          selectedClub.id
-        }`,
-      )
+      .delete(`${url}/${selectedClub.id}`)
       .then(res => {
-        changeClubList(clubList.filter(club => club.id !== selectedClub.id));
-        changeUserClubs(userClubs.filter(club => club.id !== selectedClub.id));
-        toggle();
-        toggleEditClub();
+        setRedirectFlag(true);
       })
       .catch(e => console.log('Error deleting to server', e.response));
   };
 
   const handleSubmit = () => {
-    console.log('HANDLE SUBMIT');
     const newinfo = {
       name: name,
       description: description,
@@ -81,26 +71,9 @@ const ClubListModal = ({
       email: email,
     };
     axios
-      .put(
-        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs/${
-          selectedClub.id
-        }`,
-        newinfo,
-      )
+      .put(`${url}/${selectedClub.id}`, newinfo)
       .then(res => {
-        changeClubList(
-          clubList.map(club => {
-            if (club.id === selectedClub.id)
-              return {id: club.id, data: newinfo};
-            else return club;
-          }),
-        );
-        changeUserClubs(club => {
-          if (club.id === selectedClub.id) return {id: club.id, data: newinfo};
-          else return club;
-        });
-        toggleEditClub();
-        toggle();
+        setRedirectFlag(true);
       })
       .catch(e => console.log('Error putting to server', e.response));
   };
@@ -144,6 +117,9 @@ const ClubListModal = ({
     });
   };
 
+  if (redirectFlag) {
+    return <Redirect push to="/Home" />;
+  }
   return (
     <Modal
       isVisible={isVisible}
@@ -185,7 +161,8 @@ const ClubListModal = ({
         )}
 
         {!editClub &&
-          userClubs.map((club, idx) => {
+          userClubList.map((club, idx) => {
+            console.log('club', club);
             return (
               <View key={idx} style={styles.subcontainer}>
                 <TouchableOpacity

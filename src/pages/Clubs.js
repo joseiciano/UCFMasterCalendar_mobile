@@ -24,61 +24,53 @@ export default class Clubs extends Component {
 
   componentDidMount() {
     const clubsList = [];
-    axios
-      .get(
-        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
-      )
-      .then(res => {
-        for (let idx in res.data) {
-          const club = res.data[idx].data;
-          const curclub = {};
-
-          curclub['name'] = club.name ? club.name : '';
-          curclub['id'] = club.userId ? club.userId : '';
-          curclub['email'] = club.email ? club.email : '';
-          if (club.facebook)
-            curclub['facebook'] = club.facebook ? club.facebook : '';
-          if (club.instagram)
-            curclub['instagram'] = club.instagram ? club.instagram : '';
-          if (club.twitter)
-            curclub['twitter'] = club.twitter ? club.twitter : '';
-          if (club.website)
-            curclub['website'] = club.website ? club.website : '';
-          curclub['image'] = club.coverImage
-            ? club.coverImage
-            : 'https://i.redd.it/2l2av8at5sn31.jpg';
-          curclub['description'] = club.description ? club.description : '';
-          curclub['other'] = club.other ? club.other : '';
-          curclub['meetinginfo'] = club.meetingInfo ? club.meetingInfo : '';
-
-          clubsList.push(curclub);
-        }
-      })
-      .then(res => this.setState({clubs: clubsList}))
-      .catch(e => console.log('error obtaining clubdata', e));
-
-    const clublist = [];
+    const userClubs = [];
     firebase.auth().onAuthStateChanged(user => {
+      let uid;
       if (user) {
-        const uid = user.uid;
-        console.log('UID');
-
-        axios
-          .get(
-            `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
-          )
-          .then(res => {
-            for (let data in res.data) {
-              const club = res.data[data];
-              const fbid = club.id;
-              const clubdata = club.data;
-
-              if (uid === clubdata.userId) clublist.push(club);
-            }
-            this.setState({userClubs: clublist, uid: uid});
-          })
-          .catch(e => console.log('error', e));
+        uid = user.uid;
       }
+
+      axios
+        .get(
+          `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
+        )
+        .then(res => {
+          for (let idx in res.data) {
+            const club = res.data[idx].data;
+            const curclub = {};
+
+            curclub['name'] = club.name ? club.name : '';
+            curclub['id'] = club.userId ? club.userId : '';
+            curclub['email'] = club.email ? club.email : '';
+            if (club.facebook)
+              curclub['facebook'] = club.facebook ? club.facebook : '';
+            if (club.instagram)
+              curclub['instagram'] = club.instagram ? club.instagram : '';
+            if (club.twitter)
+              curclub['twitter'] = club.twitter ? club.twitter : '';
+            if (club.website)
+              curclub['website'] = club.website ? club.website : '';
+            curclub['image'] = club.coverImage
+              ? club.coverImage
+              : 'https://i.redd.it/2l2av8at5sn31.jpg';
+            curclub['description'] = club.description ? club.description : '';
+            curclub['other'] = club.other ? club.other : '';
+            curclub['meetinginfo'] = club.meetingInfo ? club.meetingInfo : '';
+
+            clubsList.push(curclub);
+
+            if (uid === club.userId) userClubs.push(res.data[idx]);
+          }
+          this.setState(
+            {userClubs: userClubs, clubs: clubsList, uid: uid},
+            () => {
+              console.log('userclubs', this.state.userClubs);
+              console.log('clubs', this.state.clubs);
+            },
+          );
+        })
+        .catch(e => console.log('error', e));
     });
   }
 
@@ -109,11 +101,8 @@ export default class Clubs extends Component {
           isVisible={this.state.showClubList}
           toggle={this.toggleClubList}
           clubList={this.state.clubs}
-          userClubs={this.state.userClubs}
-          changeUserClubs={list => this.setState({userClubs: list})}
-          changeClubList={list => this.setState({clubs: list})}
+          userClubList={this.state.userClubs}
           uid={this.state.uid}
-          remount={this.remount}
         />
         <Lister
           title="Clubs"

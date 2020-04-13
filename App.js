@@ -13,6 +13,7 @@ export default class App extends Component {
         <BackButton>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/Home" component={Home} />
             <Route exact path="/Events" component={Events} />
             <Route exact path="/Clubs" component={Clubs} />
             {/* <Route exact path="/Bigbrain" component={BigBrain} /> */}
