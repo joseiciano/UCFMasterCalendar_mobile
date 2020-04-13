@@ -4,6 +4,7 @@ import {Navbar} from '../components/Navbar';
 import {EventCard} from '../components/EventCard';
 import {Button} from 'react-native-elements';
 import {ClubCard} from '../components/ClubCard';
+import * as firebase from 'firebase';
 
 class Lister extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class Lister extends Component {
       items: [],
       showLoginModal: false,
       showRegisterModal: false,
+      loggedIn: false,
     };
   }
 
@@ -30,6 +32,10 @@ class Lister extends Component {
         {id: '4', type: this.props.type},
         {id: '5', type: 'endpadding'},
       ],
+    });
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) this.setState({loggedIn: true});
     });
   }
 
@@ -68,18 +74,22 @@ class Lister extends Component {
                         flexDirection: 'row',
                         marginLeft: '8.5%',
                       }}>
-                      <Button
-                        buttonStyle={styles.addButton}
-                        title={'View'}
-                        titleStyle={{color: '#03A9F4'}}
-                        onPress={item.button1}
-                      />
-                      <Button
-                        buttonStyle={styles.addButton}
-                        title={'Create'}
-                        titleStyle={{color: '#03A9F4'}}
-                        onPress={item.button2}
-                      />
+                      {this.state.loggedIn && (
+                        <View>
+                          <Button
+                            buttonStyle={styles.addButton}
+                            title={'View'}
+                            titleStyle={{color: '#03A9F4'}}
+                            onPress={item.button1}
+                          />
+                          <Button
+                            buttonStyle={styles.addButton}
+                            title={'Create'}
+                            titleStyle={{color: '#03A9F4'}}
+                            onPress={item.button2}
+                          />
+                        </View>
+                      )}
                     </View>
                   </View>
                 );
@@ -93,18 +103,22 @@ class Lister extends Component {
                         flexDirection: 'row',
                         marginLeft: '12.5%',
                       }}>
-                      <Button
-                        buttonStyle={styles.addButton}
-                        title={'View'}
-                        titleStyle={{color: '#03A9F4'}}
-                        onPress={item.button1}
-                      />
-                      <Button
-                        buttonStyle={styles.addButton}
-                        title={'Create'}
-                        titleStyle={{color: '#03A9F4'}}
-                        onPress={item.button2}
-                      />
+                      {this.state.loggedIn && (
+                        <View>
+                          <Button
+                            buttonStyle={styles.addButton}
+                            title={'View'}
+                            titleStyle={{color: '#03A9F4'}}
+                            onPress={item.button1}
+                          />
+                          <Button
+                            buttonStyle={styles.addButton}
+                            title={'Create'}
+                            titleStyle={{color: '#03A9F4'}}
+                            onPress={item.button2}
+                          />
+                        </View>
+                      )}
                     </View>
                   </View>
                 );
