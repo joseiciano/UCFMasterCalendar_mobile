@@ -9,6 +9,7 @@ const EventModalInfo = ({
   title,
   location,
   clubId,
+  clubName,
   description,
   startTime,
 }) => {
@@ -45,39 +46,29 @@ const EventModalInfo = ({
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Name: {title}</Text>
-          </View>
+          <Text style={styles.subheader}>Name: {title}</Text>
 
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Who: {clubId}</Text>
-          </View>
+          <Text style={styles.subheader}>Club: {clubName.name}</Text>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>What: {description}</Text>
-          </View>
+          <Text style={styles.subheader}>Event: {description}</Text>
 
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>When: {startTime}</Text>
-          </View>
+          <Text style={styles.subheader}>Time: {startTime}</Text>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
-          <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Where: {location}</Text>
-          </View>
+          <Text style={styles.subheader}>Location: {location}</Text>
           <Divider style={styles.divider} />
         </View>
 
@@ -97,8 +88,7 @@ const styles = {
   },
   subheader: {
     fontSize: 17,
-    marginTop: '2%',
-    textAlign: 'center',
+    marginTop: '5%',
   },
   divider: {
     height: '2%',

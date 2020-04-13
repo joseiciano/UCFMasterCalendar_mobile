@@ -4,10 +4,6 @@ import {Button, Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
 
 const ClubModalInfo = ({isVisible, toggle}) => {
-  const handleRegister = () => {
-    console.log('pepega submit');
-  };
-
   return (
     <Modal
       isVisible={isVisible}

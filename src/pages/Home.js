@@ -91,6 +91,7 @@ export default class Home extends Component {
               curclub['description'] = club.description;
               curclub['other'] = club.other;
               curclub['meetinginfo'] = club.meetingInfo;
+              curclub['clubId'] = res.data[idx].id;
 
               clubsList.push(curclub);
             }
@@ -144,7 +145,10 @@ export default class Home extends Component {
             </View>
 
             {this.state.events.map((event, idx) => {
-              if (idx < 3) return <EventCard key={idx} event={event} />;
+              if (idx < 3)
+                return (
+                  <EventCard key={idx} event={event} clubs={this.state.clubs} />
+                );
             })}
 
             <Button

@@ -15,9 +15,11 @@ export default class Events extends Component {
     this.state = {
       events: [],
       userClubs: [],
+      clubs: [],
       showModal: false,
       showEventForm: false,
       showEventList: false,
+      setFlag: false,
       uid: '',
     };
   }
@@ -39,6 +41,7 @@ export default class Events extends Component {
       .catch(e => console.log('error getting list of events', e));
 
     const userClubs = [];
+    const clubsList = [];
     firebase.auth().onAuthStateChanged(user => {
       let uid;
       if (user) {
@@ -60,8 +63,29 @@ export default class Events extends Component {
                 clubName: clubName,
               });
             }
+
+            const club = res.data[idx].data;
+            const curclub = {};
+
+            curclub['name'] = club.name;
+            curclub['id'] = club.userId;
+            curclub['email'] = club.email;
+            if (club.facebook) curclub['facebook'] = club.facebook;
+            if (club.instagram) curclub['instagram'] = club.instagram;
+            if (club.twitter) curclub['twitter'] = club.twitter;
+            if (club.website) curclub['website'] = club.website;
+            curclub['image'] = club.coverImage;
+            curclub['description'] = club.description;
+            curclub['other'] = club.other;
+            curclub['meetinginfo'] = club.meetingInfo;
+            curclub['clubId'] = res.data[idx].id;
+
+            clubsList.push(curclub);
           }
-          this.setState({userClubs: userClubs}, () => {});
+          this.setState(
+            {userClubs: userClubs, clubs: clubsList, setFlag: true},
+            () => {},
+          );
         })
         .catch(e => console.log('error', e));
     });
@@ -69,15 +93,44 @@ export default class Events extends Component {
 
   toggleEventForm = () => {
     this.setState({showEventForm: !this.state.showEventForm});
-    console.log('Show Events Form');
+    // console.log('Show Events Form');
   };
 
   toggleEventList = () => {
     this.setState({showEventList: !this.state.showEventList});
-    console.log('Show Events List');
+    // console.log('Show Events List');
   };
 
   render() {
+    if (this.state.setFlag) {
+      // console.log('we in here');
+      // console.log('state', this.state);
+      return (
+        <View style={{flex: 1}}>
+          <EventModalForm
+            isVisible={this.state.showEventForm}
+            toggle={this.toggleEventForm}
+            eventList={this.state.events}
+            userClubs={this.state.userClubs}
+          />
+          <EventListModal
+            isVisible={this.state.showEventList}
+            toggle={this.toggleEventList}
+            eventList={this.state.events}
+            userClubs={this.state.userClubs}
+          />
+          <Lister
+            title={'Events'}
+            titleType="eventstitle"
+            type="events"
+            buttonPress1={this.toggleEventList}
+            buttonPress2={this.toggleEventForm}
+            list={this.state.events}
+            clubs={this.state.clubs}
+          />
+        </View>
+      );
+    }
     return (
       <View style={{flex: 1}}>
         <EventModalForm
@@ -91,14 +144,6 @@ export default class Events extends Component {
           toggle={this.toggleEventList}
           eventList={this.state.events}
           userClubs={this.state.userClubs}
-        />
-        <Lister
-          title={'Events'}
-          titleType="eventstitle"
-          type="events"
-          buttonPress1={this.toggleEventList}
-          buttonPress2={this.toggleEventForm}
-          list={this.state.events}
         />
       </View>
     );
