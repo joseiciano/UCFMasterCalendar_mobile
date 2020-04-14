@@ -1,82 +1,88 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import {useHistory} from 'react-router-native';
-import Login from './Login';
-import Register from './Register';
 import {Redirect} from 'react-router-native';
 import * as firebase from 'firebase/app';
 
-const Navbar = ({
-  leftText,
-  rightText1,
-  rightText1OnPress,
-  rightText2,
-  rightText2OnPress,
-}) => {
-  const [loginModal, setLoginModal] = useState(false);
-  const [registerModal, setRegisterModal] = useState(false);
-  const [signInState, setSignInState] = useState(false);
-  const [etFlag, setETFlag] = useState(false);
-  const history = useHistory();
+const Navbar = ({hideButtons}) => {
+  const [gotoLogin, setgotoLogin] = useState(false);
+  const [gotoRegister, setgotoRegister] = useState(false);
+  const [gotoHome, setgotoHome] = useState(false);
+  const [gotoLogout, setgotoLogout] = useState(false);
+  const [loggedin, setLoggedin] = useState(false);
 
-  const toggleLogin = () => setLoginModal(!loginModal);
-  const toggleRegister = () => setRegisterModal(!registerModal);
-
-  const logout = () => {
-    firebase.auth().signOut();
-
-    if (history.location.pathname !== '/') setETFlag(true);
-  };
+  const redirectLogin = () => setgotoLogin(true);
+  const redirectRegister = () => setgotoRegister(true);
+  const redirectHome = () => setgotoHome(true);
+  const redirectLogout = () => setgotoLogout(true);
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        setSignInState(true);
-      }
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) setLoggedin(true);
     });
-    setETFlag(false);
   }, []);
 
-  if (etFlag) {
-    if (history.location.pathname !== '/') return <Redirect push to="/" />;
+  if (gotoHome) {
+    return <Redirect to="/Biggerbrain" />;
+  }
+  if (gotoLogin) {
+    return <Redirect to="/Login" />;
+  }
+  if (gotoRegister) {
+    return <Redirect to="/Register" />;
+  }
+  if (gotoLogout) {
+    setgotoLogout(false);
+    return <Redirect to="/Logout" />;
   }
 
-  return (
-    <View style={styles.navBar}>
-      <Login isVisible={loginModal} toggle={toggleLogin} />
-      <Register isVisible={registerModal} toggle={toggleRegister} />
-      <TouchableOpacity
-        onPress={() => {
-          if (history.location.pathname !== '/') setETFlag(true);
-        }}>
-        <Text style={styles.nameBtn}>{leftText}</Text>
-      </TouchableOpacity>
-
-      {!signInState && (
-        <TouchableOpacity
-          onPress={toggleLogin}
-          style={{activeOpacity: 0.4, marginLeft: '25%', width: '18%'}}>
-          <Text style={styles.login}>{rightText1}</Text>
+  if (hideButtons) {
+    return (
+      <View style={styles.navBar}>
+        <TouchableOpacity onPress={redirectHome}>
+          <Text style={styles.nameBtn}>Knightro</Text>
         </TouchableOpacity>
-      )}
-
-      {!signInState && (
-        <TouchableOpacity
-          onPress={toggleRegister}
-          style={{activeOpacity: 0.4, marginLeft: '2%', width: '18%'}}>
-          <Text style={styles.register}>{rightText2}</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.navBar}>
+        <TouchableOpacity onPress={redirectHome}>
+          <Text style={styles.nameBtn}>Knightro</Text>
         </TouchableOpacity>
-      )}
 
-      {signInState && (
-        <TouchableOpacity
-          onPress={logout}
-          style={{activeOpacity: 0.4, marginLeft: '38.6%', width: '18%'}}>
-          <Text style={styles.register}>Log Out</Text>
-        </TouchableOpacity>
-      )}
-    </View>
-  );
+        {!loggedin && (
+          <TouchableOpacity
+            onPress={redirectLogin}
+            style={{
+              activeOpacity: 0.4,
+              marginLeft: '3%',
+              width: '30%',
+            }}>
+            <Text style={styles.login}>Log In</Text>
+          </TouchableOpacity>
+        )}
+        {!loggedin && (
+          <TouchableOpacity
+            onPress={redirectRegister}
+            style={{
+              activeOpacity: 0.4,
+              right: '10%',
+              width: '30%',
+            }}>
+            <Text style={styles.register}>Sign Up</Text>
+          </TouchableOpacity>
+        )}
+
+        {loggedin && (
+          <TouchableOpacity
+            onPress={redirectLogout}
+            style={{activeOpacity: 0.4, marginLeft: '30%', width: '30%'}}>
+            <Text style={styles.register}>Log Out</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -94,7 +100,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontFamily: 'Pacifico',
-    fontSize: 33,
+    fontSize: 25,
     bottom: '1%',
     marginLeft: '2%',
   },

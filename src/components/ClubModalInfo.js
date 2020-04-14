@@ -3,7 +3,17 @@ import {View, Text, ScrollView, TextInput} from 'react-native';
 import {Button, Divider} from 'react-native-elements';
 import Modal from 'react-native-modal';
 
-const ClubModalInfo = ({isVisible, toggle}) => {
+const ClubModalInfo = ({
+  isVisible,
+  toggle,
+  name,
+  email,
+  website,
+  instagram,
+  twitter,
+  facebook,
+  meetinginfo,
+}) => {
   return (
     <Modal
       isVisible={isVisible}
@@ -22,35 +32,59 @@ const ClubModalInfo = ({isVisible, toggle}) => {
         <View style={{...styles.subcontainer, paddingTop: '6%'}}>
           <Text
             style={{fontFamily: 'Pacifico', fontSize: 20, textAlign: 'center'}}>
-            (Insert Club Name Title Here)
+            {name ? name : ''}
           </Text>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Email: </Text>
+            <Text style={styles.subheader}>Email: {email ? email : ''}</Text>
           </View>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Phone: </Text>
+            <Text style={styles.subheader}>
+              Meeting Info: {meetinginfo ? meetinginfo : ''}
+            </Text>
           </View>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Website: </Text>
+            <Text style={styles.subheader}>
+              Website: {website ? website : ''}
+            </Text>
           </View>
           <Divider style={styles.divider} />
         </View>
 
         <View style={styles.subcontainer}>
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.subheader}>Instagram: </Text>
+            <Text style={styles.subheader}>
+              Instagram: {instagram ? instagram : ''}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+        </View>
+
+        <View style={styles.subcontainer}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subheader}>
+              Facebook: {facebook ? facebook : ''}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+        </View>
+
+        <View style={styles.subcontainer}>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.subheader}>
+              Twitter: {twitter ? twitter : ''}
+            </Text>
           </View>
           <Divider style={styles.divider} />
         </View>

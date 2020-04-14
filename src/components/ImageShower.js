@@ -45,8 +45,9 @@ const styles = {
     width: '90%',
   },
   imageStyle: {
-    width: windowWidth,
+    width: windowWidth * 1.2,
     height: '45%',
+    right: '8%',
   },
   buttonStyle: {
     width: '95%',

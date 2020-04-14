@@ -29,6 +29,8 @@ const ClubFormInfo = ({
   handleSubmit,
   handleDelete,
   showTwoButtons,
+  emailValue,
+  onChangeEmail,
 }) => {
   return (
     <View key={0} style={styles.subcontainer}>
@@ -48,6 +50,17 @@ const ClubFormInfo = ({
           multiline
           value={descValue}
           onChangeText={onChangeDesc}
+          style={styles.input}
+        />
+        <Divider style={styles.divider} />
+      </View>
+
+      <View style={styles.subcontainer}>
+        <Text style={styles.subheader}>Email</Text>
+        <TextInput
+          multiline
+          value={emailValue}
+          onChangeText={onChangeEmail}
           style={styles.input}
         />
         <Divider style={styles.divider} />
@@ -118,18 +131,18 @@ const ClubFormInfo = ({
         <View style={{flexDirection: 'row'}}>
           <View style={styles.subcontainer}>
             <Button
-              title="Submit"
-              buttonStyle={styles.submitButton}
-              titleStyle={{color: '#03A9F4'}}
-              onPress={handleSubmit}
-            />
-          </View>
-          <View style={styles.subcontainer}>
-            <Button
               title="Delete"
               buttonStyle={styles.submitButton}
               titleStyle={{color: '#03A9F4'}}
               onPress={handleDelete}
+            />
+          </View>
+          <View style={styles.subcontainer}>
+            <Button
+              title="Submit"
+              buttonStyle={styles.submitButton}
+              titleStyle={{color: '#03A9F4'}}
+              onPress={handleSubmit}
             />
           </View>
         </View>
@@ -200,7 +213,7 @@ const styles = {
     borderWidth: 1.5,
     borderRadius: 10,
     backgroundColor: 'white',
-    marginLeft: '10%',
-    width: '80%',
+    marginLeft: '6%',
+    width: '95%',
   },
 };

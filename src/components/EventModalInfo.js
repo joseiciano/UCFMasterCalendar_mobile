@@ -52,7 +52,9 @@ const EventModalInfo = ({
         </View>
 
         <View style={styles.subcontainer}>
-          <Text style={styles.subheader}>Club: {clubName.name}</Text>
+          <Text style={styles.subheader}>
+            Club: {clubName && clubName.name ? clubName.name : ''}
+          </Text>
           <Divider style={styles.divider} />
         </View>
 
@@ -87,7 +89,7 @@ const styles = {
     paddingRight: '8%',
   },
   subheader: {
-    fontSize: 17,
+    fontSize: 12,
     marginTop: '5%',
   },
   divider: {
