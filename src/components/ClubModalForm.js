@@ -14,7 +14,7 @@ const memes = [];
 const ClubModalForm = ({isVisible, toggle, remount}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  const [email, setEmail] = useState('email');
+  const [email, setEmail] = useState('');
   const [meetingInfo, setMeetingInfo] = useState('');
   const [website, setWebsite] = useState('');
   const [instagram, setInstagram] = useState('');
@@ -148,6 +148,8 @@ const ClubModalForm = ({isVisible, toggle, remount}) => {
           <ClubFormInfo
             nameValue={name}
             onChangeName={text => setName(text)}
+            emailValue={email}
+            onChangeEmail={text => setEmail(text)}
             descValue={description}
             onChangeDesc={text => setDescription(text)}
             meetValue={meetingInfo}

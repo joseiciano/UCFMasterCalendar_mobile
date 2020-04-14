@@ -76,7 +76,7 @@ class Lister extends Component {
                       }}>
                       {this.state.loggedIn && (
                         <Button
-                          buttonStyle={styles.addButton}
+                          buttonStyle={{...styles.addButton, marginLeft: '9%'}}
                           title={'View'}
                           titleStyle={{color: '#03A9F4'}}
                           onPress={item.button1}
@@ -84,7 +84,7 @@ class Lister extends Component {
                       )}
                       {this.state.loggedIn && (
                         <Button
-                          buttonStyle={styles.addButton}
+                          buttonStyle={{...styles.addButton, right: '25%'}}
                           title={'Create'}
                           titleStyle={{color: '#03A9F4'}}
                           onPress={item.button2}
@@ -105,7 +105,7 @@ class Lister extends Component {
                       }}>
                       {this.state.loggedIn && (
                         <Button
-                          buttonStyle={styles.addButton}
+                          buttonStyle={{...styles.addButton, marginLeft: '10%'}}
                           title={'View'}
                           titleStyle={{color: '#03A9F4'}}
                           onPress={item.button1}
@@ -113,7 +113,7 @@ class Lister extends Component {
                       )}
                       {this.state.loggedIn && (
                         <Button
-                          buttonStyle={styles.addButton}
+                          buttonStyle={{...styles.addButton, right: '25%'}}
                           title={'Create'}
                           titleStyle={{color: '#03A9F4'}}
                           onPress={item.button2}
@@ -164,7 +164,7 @@ const styles = {
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: 30,
     bottom: '2%',
   },
   searchbar: {
@@ -180,7 +180,7 @@ const styles = {
     borderWidth: 1.5,
     borderRadius: 10,
     backgroundColor: 'white',
-    width: '90%',
+    width: '77%',
   },
 };
 

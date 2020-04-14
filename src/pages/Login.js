@@ -44,7 +44,7 @@ export default class Login extends Component {
           <Navbar />
         </View>
 
-        <View style={{backgroundColor: 'pink', height: '100%'}}>
+        <View style={{backgroundColor: 'pink', height: '90%', top: '1%'}}>
           <View style={styles.backgroundStyle}>
             <Text
               style={{
@@ -64,10 +64,10 @@ export default class Login extends Component {
                   style={{
                     borderColor: 'black',
                     borderWidth: 1,
-                    width: '75%',
+                    width: '69%',
                     borderRadius: 10,
                     backgroundColor: 'white',
-                    marginLeft: '9.7%',
+                    marginLeft: '14%',
                   }}
                   onChangeText={text => this.setState({email: text})}
                 />
@@ -79,11 +79,12 @@ export default class Login extends Component {
                   style={{
                     borderColor: 'black',
                     borderWidth: 1,
-                    width: '75%',
+                    width: '69%',
                     borderRadius: 10,
                     backgroundColor: 'white',
                     marginLeft: '1.6%',
                   }}
+                  secureTextEntry={true}
                   onChangeText={text => this.setState({password: text})}
                 />
               </View>
@@ -100,7 +101,7 @@ export default class Login extends Component {
                 onPress={this.redirectRegister}
               />
             </Card>
-            <Image source={techHeart} style={styles.imageStyle} />
+            {/* <Image source={techHeart} style={styles.imageStyle} /> */}
           </View>
         </View>
       </View>

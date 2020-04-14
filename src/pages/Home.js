@@ -152,23 +152,22 @@ const styles = StyleSheet.create({
   imageBackground: {
     backgroundColor: '#D0F5F7',
     borderRadius: 0,
-    height: 600,
+    height: 505,
   },
   imageHeader: {
-    marginTop: '12%',
+    marginTop: '5%',
     textAlign: 'center',
     fontWeight: 'bold',
-    fontSize: 40,
+    fontSize: 25,
     color: '#178B99',
     marginBottom: '5%',
   },
   imageText: {
     textAlign: 'center',
-    fontSize: 17,
+    fontSize: 14,
     color: '#178B99',
     fontWeight: 'bold',
-    width: '62%',
-    marginLeft: '17%',
+    width: '100%',
   },
   listButton: {
     borderRadius: 8,
@@ -181,7 +180,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   description: {
-    marginLeft: 25,
+    marginLeft: 18,
     marginTop: '8%',
     marginBottom: 2,
   },

@@ -79,7 +79,9 @@ const EventCard = ({event, clubs}) => {
         <Text style={styles.title}>{event.data.title}</Text>
         <View flexDirection="row">
           <Text style={styles.clubIntro}>Hosted by </Text>
-          <Text style={styles.club}>{clubName.name}</Text>
+          <Text style={styles.club}>
+            {clubName && clubName.name ? clubName.name : ''}
+          </Text>
         </View>
 
         <View style={{flexDirection: 'row'}}>
@@ -110,24 +112,25 @@ const EventCard = ({event, clubs}) => {
 export {EventCard};
 const styles = {
   title: {
-    marginTop: 20,
+    marginTop: 10,
     marginBottom: 8,
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   clubIntro: {
     marginTop: 10,
-    fontSize: 20,
+    fontSize: 13,
   },
   club: {
     marginTop: 10,
-    fontSize: 20,
+    width: '80%',
+    fontSize: 15,
     fontWeight: 'bold',
   },
   date: {
-    marginTop: 20,
+    marginTop: '8%',
     marginBottom: 20,
-    fontSize: 18,
+    fontSize: 13,
     left: '15%',
   },
   time: {
@@ -141,7 +144,7 @@ const styles = {
   location: {
     marginTop: 14,
     marginBottom: 10,
-    fontSize: 18,
+    fontSize: 13,
     left: 15,
     bottom: 10,
   },

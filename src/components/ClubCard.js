@@ -11,6 +11,7 @@ const ClubCard = ({club}) => {
   //   console.log('card', club);
   // }, []);
 
+  console.log('club', club);
   return (
     <Card
       containerStyle={styles.container}
@@ -22,7 +23,17 @@ const ClubCard = ({club}) => {
       }}
       imageStyle={{height: 200}}>
       <TouchableOpacity onPress={toggleModal}>
-        <ClubModalInfo isVisible={modalVisible} toggle={toggleModal} />
+        <ClubModalInfo
+          isVisible={modalVisible}
+          toggle={toggleModal}
+          meetinginfo={club.meetinginfo}
+          name={club.name}
+          email={club.email}
+          facebook={club.facebook}
+          instagram={club.instagram}
+          twitter={club.twitter}
+          website={club.website}
+        />
         <View style={styles.textblock}>
           <Text style={styles.title}>{club.name}</Text>
           <Text style={styles.description}>{club.description}</Text>
@@ -47,14 +58,14 @@ const styles = {
   title: {
     marginTop: 20,
     marginBottom: 8,
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: 'bold',
   },
   description: {
     marginTop: 10,
     marginBottom: 30,
     marginRight: 35,
-    fontSize: 18,
+    fontSize: 13,
   },
   club: {
     marginTop: 10,

@@ -31,6 +31,7 @@ const Navbar = ({hideButtons}) => {
     return <Redirect to="/Register" />;
   }
   if (gotoLogout) {
+    setgotoLogout(false);
     return <Redirect to="/Logout" />;
   }
 
@@ -52,14 +53,22 @@ const Navbar = ({hideButtons}) => {
         {!loggedin && (
           <TouchableOpacity
             onPress={redirectLogin}
-            style={{activeOpacity: 0.4, marginLeft: '25%', width: '18%'}}>
+            style={{
+              activeOpacity: 0.4,
+              marginLeft: '3%',
+              width: '30%',
+            }}>
             <Text style={styles.login}>Log In</Text>
           </TouchableOpacity>
         )}
         {!loggedin && (
           <TouchableOpacity
             onPress={redirectRegister}
-            style={{activeOpacity: 0.4, marginLeft: '2%', width: '18%'}}>
+            style={{
+              activeOpacity: 0.4,
+              right: '10%',
+              width: '30%',
+            }}>
             <Text style={styles.register}>Sign Up</Text>
           </TouchableOpacity>
         )}
@@ -67,7 +76,7 @@ const Navbar = ({hideButtons}) => {
         {loggedin && (
           <TouchableOpacity
             onPress={redirectLogout}
-            style={{activeOpacity: 0.4, marginLeft: '38.6%', width: '18%'}}>
+            style={{activeOpacity: 0.4, marginLeft: '30%', width: '30%'}}>
             <Text style={styles.register}>Log Out</Text>
           </TouchableOpacity>
         )}
@@ -91,7 +100,7 @@ const styles = StyleSheet.create({
     color: 'black',
     textAlign: 'center',
     fontFamily: 'Pacifico',
-    fontSize: 33,
+    fontSize: 25,
     bottom: '1%',
     marginLeft: '2%',
   },

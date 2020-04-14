@@ -26,7 +26,16 @@ export default class Register extends Component {
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(res => this.redirectHome);
+      .then(res => {
+        const user = firebase.auth().currentUser;
+
+        user.sendEmailVerification();
+      })
+      .then(res => {
+        firebase.auth().signOut();
+        this.redirectHome();
+      })
+      .catch(e => console.log('cant register', e));
   };
 
   render() {
@@ -62,11 +71,12 @@ export default class Register extends Component {
                   style={{
                     borderColor: 'black',
                     borderWidth: 1,
-                    width: '75%',
+                    width: '69%',
                     borderRadius: 10,
                     backgroundColor: 'white',
-                    marginLeft: '9.7%',
+                    marginLeft: '14%',
                   }}
+                  onChangeText={text => this.setState({email: text})}
                 />
               </View>
               <View style={{flexDirection: 'row', marginTop: '5%'}}>
@@ -76,16 +86,18 @@ export default class Register extends Component {
                   style={{
                     borderColor: 'black',
                     borderWidth: 1,
-                    width: '75%',
+                    width: '69%',
                     borderRadius: 10,
                     backgroundColor: 'white',
                     marginLeft: '1.6%',
                   }}
+                  onChangeText={text => this.setState({password: text})}
+                  secureTextEntry={true}
                 />
               </View>
               <Button
                 buttonStyle={styles.buttonStyle}
-                title={'Login'}
+                title={'Register'}
                 titleStyle={styles.titleStyle}
                 onPress={this.handleRegister}
               />
@@ -96,7 +108,7 @@ export default class Register extends Component {
                 onPress={this.redirectLogin}
               />
             </Card>
-            <Image source={techHeart} style={styles.imageStyle} />
+            {/* <Image source={techHeart} style={styles.imageStyle} /> */}
           </View>
         </View>
       </View>
