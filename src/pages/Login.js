@@ -30,7 +30,7 @@ export default class Login extends Component {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(res => registerHome)
+        .then(res => this.redirectHome)
         .catch(e => this.setState({errorMessage: e.message}));
     }
   };

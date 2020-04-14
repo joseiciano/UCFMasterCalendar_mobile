@@ -10,6 +10,7 @@ import {Divider, Button} from 'react-native-elements';
 import {useHistory} from 'react-router-native';
 
 const ClubFormInfo = ({
+  errormsg,
   nameValue,
   onChangeName,
   descValue,
@@ -34,6 +35,13 @@ const ClubFormInfo = ({
 }) => {
   return (
     <View key={0} style={styles.subcontainer}>
+      {errormsg.length > 0 && (
+        <View style={styles.subcontainer}>
+          <Text style={{...styles.subheader, color: 'red'}}>{errormsg}</Text>
+          <Divider style={styles.divider} />
+        </View>
+      )}
+
       <View style={styles.subcontainer}>
         <Text style={styles.subheader}>Club Name</Text>
         <TextInput
