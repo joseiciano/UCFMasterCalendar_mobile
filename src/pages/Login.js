@@ -27,10 +27,15 @@ export default class Login extends Component {
     if (this.state.password.length < 6) {
       this.setState({errorMessage: 'Password should be at least 6 character'});
     } else {
+      console.log('WHERE IN HERE');
+
       firebase
         .auth()
         .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(res => this.redirectHome)
+        .then(res => {
+          console.log('log');
+          this.redirectHome();
+        })
         .catch(e => this.setState({errorMessage: e.message}));
     }
   };

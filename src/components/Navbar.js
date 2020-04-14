@@ -13,11 +13,25 @@ const Navbar = ({hideButtons}) => {
   const redirectLogin = () => setgotoLogin(true);
   const redirectRegister = () => setgotoRegister(true);
   const redirectHome = () => setgotoHome(true);
-  const redirectLogout = () => setgotoLogout(true);
+  const logout = () => {
+    console.log('we in');
+    firebase
+      .auth()
+      .signOut()
+      .then(res => {
+        setgotoHome(true);
+      });
+  };
+  const redirectLogout = () => {
+    setLoggedin(false);
+    setgotoLogout(true);
+  };
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
       if (user) setLoggedin(true);
+      console.log('we in here');
+      console.log('user', user);
     });
   }, []);
 
@@ -31,7 +45,6 @@ const Navbar = ({hideButtons}) => {
     return <Redirect to="/Register" />;
   }
   if (gotoLogout) {
-    setgotoLogout(false);
     return <Redirect to="/Logout" />;
   }
 
@@ -75,7 +88,7 @@ const Navbar = ({hideButtons}) => {
 
         {loggedin && (
           <TouchableOpacity
-            onPress={redirectLogout}
+            onPress={logout}
             style={{activeOpacity: 0.4, marginLeft: '30%', width: '30%'}}>
             <Text style={styles.register}>Log Out</Text>
           </TouchableOpacity>
