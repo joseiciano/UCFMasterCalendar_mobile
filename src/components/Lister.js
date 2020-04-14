@@ -75,20 +75,20 @@ class Lister extends Component {
                         marginLeft: '8.5%',
                       }}>
                       {this.state.loggedIn && (
-                        <View>
-                          <Button
-                            buttonStyle={styles.addButton}
-                            title={'View'}
-                            titleStyle={{color: '#03A9F4'}}
-                            onPress={item.button1}
-                          />
-                          <Button
-                            buttonStyle={styles.addButton}
-                            title={'Create'}
-                            titleStyle={{color: '#03A9F4'}}
-                            onPress={item.button2}
-                          />
-                        </View>
+                        <Button
+                          buttonStyle={styles.addButton}
+                          title={'View'}
+                          titleStyle={{color: '#03A9F4'}}
+                          onPress={item.button1}
+                        />
+                      )}
+                      {this.state.loggedIn && (
+                        <Button
+                          buttonStyle={styles.addButton}
+                          title={'Create'}
+                          titleStyle={{color: '#03A9F4'}}
+                          onPress={item.button2}
+                        />
                       )}
                     </View>
                   </View>
@@ -104,20 +104,20 @@ class Lister extends Component {
                         marginLeft: '12.5%',
                       }}>
                       {this.state.loggedIn && (
-                        <View>
-                          <Button
-                            buttonStyle={styles.addButton}
-                            title={'View'}
-                            titleStyle={{color: '#03A9F4'}}
-                            onPress={item.button1}
-                          />
-                          <Button
-                            buttonStyle={styles.addButton}
-                            title={'Create'}
-                            titleStyle={{color: '#03A9F4'}}
-                            onPress={item.button2}
-                          />
-                        </View>
+                        <Button
+                          buttonStyle={styles.addButton}
+                          title={'View'}
+                          titleStyle={{color: '#03A9F4'}}
+                          onPress={item.button1}
+                        />
+                      )}
+                      {this.state.loggedIn && (
+                        <Button
+                          buttonStyle={styles.addButton}
+                          title={'Create'}
+                          titleStyle={{color: '#03A9F4'}}
+                          onPress={item.button2}
+                        />
                       )}
                     </View>
                   </View>

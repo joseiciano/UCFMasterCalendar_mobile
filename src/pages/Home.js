@@ -3,49 +3,13 @@ import {View, ScrollView, StyleSheet, Text} from 'react-native';
 import axios from 'axios';
 import * as firebase from 'firebase/app';
 import {Button} from 'react-native-elements';
-import Register from '../components/Register';
+import {Redirect} from 'react-router-native';
 
 import techHeart from '../assets/images/smallHeart.png';
 import {Navbar} from '../components/Navbar';
 import {ImageShower} from '../components/ImageShower';
 import {EventCard} from '../components/EventCard';
 import {ClubCard} from '../components/ClubCard';
-
-const days = [
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-  'Sunday',
-];
-const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-const dateendings = [
-  'th',
-  'st',
-  'nd',
-  'rd',
-  'th',
-  'th',
-  'th',
-  'th',
-  'th',
-  'th',
-];
 
 const URL =
   'https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1';
@@ -58,6 +22,9 @@ export default class Home extends Component {
       clubs: [],
       showLoginModal: false,
       showRegisterModal: false,
+      redirectRegister: false,
+      redirectClubs: false,
+      redirectEvents: false,
     };
   }
 
@@ -102,28 +69,26 @@ export default class Home extends Component {
       .catch(e => console.log('error obtaining data', e));
   }
 
-  toggleLogin = () =>
-    this.setState({showLoginModal: !this.state.showLoginModal});
-
-  toggleRegister = () =>
-    this.setState({showRegisterModal: !this.state.showRegisterModal});
+  redirectRegister = () => this.setState({redirectRegister: true});
+  redirectClubs = () => this.setState({redirectClubs: true});
+  redirectEvents = () => this.setState({redirectEvents: true});
 
   render() {
     const {history} = this.props;
+
+    if (this.state.redirectRegister) {
+      return <Redirect push to="/Register" />;
+    }
+    if (this.state.redirectClubs) {
+      return <Redirect push to="/Clubs" />;
+    }
+    if (this.state.redirectEvents) {
+      return <Redirect push to="/Events" />;
+    }
     return (
       <View style={{flex: 1, height: '100%'}}>
         <ScrollView style={{flex: 1}}>
-          <Register
-            isVisible={this.state.showRegisterModal}
-            toggle={this.toggleRegister}
-          />
-          <Navbar
-            leftText="Knightro"
-            rightText1="Log in"
-            rightText1OnPress={this.toggleLogin}
-            rightText2="Sign up"
-            rightText2OnPress={this.toggleRegister}
-          />
+          <Navbar />
 
           <View style={{flex: 1}}>
             <ImageShower
@@ -134,7 +99,7 @@ export default class Home extends Component {
               upperBodyText="Just bring an open mind and an insatiable desire to learn, and we'll take care of the rest."
               upperBodyStyle={styles.imageText}
               buttonText="Join Knightro"
-              buttonOnPress={this.toggleRegister}
+              buttonOnPress={this.redirectRegister}
             />
 
             <View style={styles.description}>
@@ -155,7 +120,7 @@ export default class Home extends Component {
               buttonStyle={styles.listButton}
               title="View All Events"
               titleStyle={{color: '#03A9F4'}}
-              onPress={() => history.push('/Events')}
+              onPress={this.redirectEvents}
             />
 
             <View style={styles.description}>
@@ -173,12 +138,7 @@ export default class Home extends Component {
               buttonStyle={styles.listButton}
               title="View All Clubs"
               titleStyle={{color: '#03A9F4'}}
-              onPress={() =>
-                history.push({
-                  pathname: '/Clubs',
-                  state: {clubsList: this.state.clubs},
-                })
-              }
+              onPress={this.redirectClubs}
             />
             <View style={{marginTop: '5%'}} />
           </View>
