@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {StyleSheet, SafeAreaView, View} from 'react-native';
 import {NativeRouter, Switch, Route, BackButton} from 'react-router-native';
 
 import Home from './src/pages/Home';
@@ -22,10 +21,10 @@ export default class App extends Component {
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Register" component={Register} />
             <Route exact path="/Logout" component={Logout} />
-            <Route exact path="/Biggerbrain" component={BiggerBrain} />
             <Route exact path="/Events" component={Events} />
             <Route exact path="/Clubs" component={Clubs} />
             <Route exact path="/Bigbrain" component={BigBrain} />
+            <Route exact path="/Biggerbrain" component={BiggerBrain} />
           </Switch>
         </BackButton>
       </NativeRouter>
