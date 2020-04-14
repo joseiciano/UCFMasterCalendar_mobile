@@ -12,6 +12,7 @@ class Lister extends Component {
     this.state = {
       text: '',
       items: [],
+      searchtext: '',
       showLoginModal: false,
       showRegisterModal: false,
       loggedIn: false,
@@ -126,25 +127,27 @@ class Lister extends Component {
                 return (
                   <TextInput
                     style={styles.searchbar}
-                    onChangeText={text => this.setState({text: text})}
+                    onChangeText={text => this.setState({searchtext: text})}
                   />
                 );
               case 'events':
                 // console.log(this.props);
                 return this.props.list.map((event, idx) => {
-                  return (
-                    <EventCard
-                      key={idx}
-                      event={event}
-                      clubs={this.props.clubs}
-                    />
-                    // <Text>{this.props.clubs[0].name}</Text>
-                  );
+                  if (event.data.title.includes(this.state.searchtext))
+                    return (
+                      <EventCard
+                        key={idx}
+                        event={event}
+                        clubs={this.props.clubs}
+                      />
+                      // <Text>{this.props.clubs[0].name}</Text>
+                    );
                 });
               case 'clubs':
-                return this.props.list.map((club, idx) => (
-                  <ClubCard key={idx} club={club} />
-                ));
+                return this.props.list.map((club, idx) => {
+                  if (club.name.includes(this.state.searchtext))
+                    return <ClubCard key={idx} club={club} />;
+                });
               case 'endpadding':
                 return <View style={{marginTop: 30}} />;
             }

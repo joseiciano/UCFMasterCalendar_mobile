@@ -24,6 +24,7 @@ const ClubModalForm = ({isVisible, toggle, remount}) => {
   const [other, setOther] = useState('other');
   const [uid, setuid] = useState('');
   const [redirectFlag, setRedirectFlag] = useState(false);
+  const [errormsg, setErrormsg] = useState('');
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function(user) {
@@ -85,30 +86,36 @@ const ClubModalForm = ({isVisible, toggle, remount}) => {
   };
 
   const handleSubmit = () => {
-    const newinfo = {
-      name: name,
-      description: description,
-      meetingInfo: meetingInfo,
-      website: website,
-      instagram: instagram,
-      facebook: facebook,
-      twitter: twitter,
-      coverImage: coverImage
-        ? coverImage
-        : 'https://i.redd.it/2l2av8at5sn31.jpg',
-      other: other,
-      userId: uid,
-      email: email,
-    };
-    axios
-      .post(
-        `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
-        newinfo,
-      )
-      .then(res => {
-        setRedirectFlag(true);
-      })
-      .catch(e => console.log('Error posting to server', e));
+    if (instagram.length == 0 && facebook.length == 0 && twitter.length == 0) {
+      setErrormsg('Need some form of social media');
+    } else if (name.length < 2) {
+      setErrormsg('Need to add a name to the club');
+    } else {
+      const newinfo = {
+        name: name,
+        description: description,
+        meetingInfo: meetingInfo,
+        website: website,
+        instagram: instagram,
+        facebook: facebook,
+        twitter: twitter,
+        coverImage: coverImage
+          ? coverImage
+          : 'https://i.redd.it/2l2av8at5sn31.jpg',
+        other: other,
+        userId: uid,
+        email: email,
+      };
+      axios
+        .post(
+          `https://us-central1-ucf-master-calendar.cloudfunctions.net/webApi/api/v1/clubs`,
+          newinfo,
+        )
+        .then(res => {
+          setRedirectFlag(true);
+        })
+        .catch(e => setErrormsg(e.message));
+    }
   };
 
   if (redirectFlag) {
@@ -146,6 +153,7 @@ const ClubModalForm = ({isVisible, toggle, remount}) => {
           />
 
           <ClubFormInfo
+            errormsg={errormsg}
             nameValue={name}
             onChangeName={text => setName(text)}
             emailValue={email}
