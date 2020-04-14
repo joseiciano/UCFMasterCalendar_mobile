@@ -17,25 +17,30 @@ export default class Register extends Component {
       password: '',
       redirectHome: false,
       redirectLogin: false,
+      errorMessage: '',
     };
   }
 
   redirectHome = () => this.setState({redirectHome: true});
   redirectLogin = () => this.setState({redirectLogin: true});
   handleRegister = () => {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(this.state.email, this.state.password)
-      .then(res => {
-        const user = firebase.auth().currentUser;
+    if (this.state.password.length < 6) {
+      this.setState({errorMessage: 'Password should be at least 6 characters'});
+    } else {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(res => {
+          const user = firebase.auth().currentUser;
 
-        user.sendEmailVerification();
-      })
-      .then(res => {
-        firebase.auth().signOut();
-        this.redirectHome();
-      })
-      .catch(e => console.log('cant register', e));
+          user.sendEmailVerification();
+        })
+        .then(res => {
+          firebase.auth().signOut();
+          this.redirectHome();
+        })
+        .catch(e => this.setState({errorMessage: e.message}));
+    }
   };
 
   render() {
@@ -64,6 +69,9 @@ export default class Register extends Component {
             </Text>
 
             <Card title="Register a New Account">
+              <Text style={{fontSize: 17, marginTop: '2%', color: 'red'}}>
+                {this.state.errorMessage}
+              </Text>
               <View style={{flexDirection: 'row'}}>
                 <Text style={{fontSize: 17, marginTop: '2%'}}>Email: </Text>
                 <TextInput
@@ -100,6 +108,12 @@ export default class Register extends Component {
                 title={'Register'}
                 titleStyle={styles.titleStyle}
                 onPress={this.handleRegister}
+              />
+              <Button
+                buttonStyle={styles.buttonStyle}
+                title={'Need an account?'}
+                titleStyle={styles.titleStyle}
+                onPress={this.redirectLogin}
               />
               <Button
                 buttonStyle={styles.buttonStyle}

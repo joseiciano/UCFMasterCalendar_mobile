@@ -21,6 +21,7 @@ export default class Logout extends Component {
 
   logout = () => {
     firebase.auth().signOut();
+    this.setState({redirectHome: true});
   };
 
   render() {

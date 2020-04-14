@@ -17,18 +17,22 @@ export default class Login extends Component {
       password: '',
       redirectHome: false,
       redirectRegister: false,
+      errorMessage: '',
     };
   }
 
   redirectHome = () => this.setState({redirectHome: true});
   redirectRegister = () => this.setState({redirectRegister: true});
   handleLogin = () => {
-    console.log('EMAIL', this.state.email);
-    console.log('PASSWORD', this.state.password);
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(res => console.log('pepega'));
+    if (this.state.password.length < 6) {
+      this.setState({errorMessage: 'Password should be at least 6 character'});
+    } else {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then(res => registerHome)
+        .catch(e => this.setState({errorMessage: e.message}));
+    }
   };
 
   render() {
@@ -57,6 +61,9 @@ export default class Login extends Component {
             </Text>
 
             <Card title="Enter your login information">
+              <Text style={{fontSize: 17, marginTop: '2%', color: 'red'}}>
+                {this.state.errorMessage}
+              </Text>
               <View style={{flexDirection: 'row'}}>
                 <Text style={{fontSize: 17, marginTop: '2%'}}>Email: </Text>
                 <TextInput
