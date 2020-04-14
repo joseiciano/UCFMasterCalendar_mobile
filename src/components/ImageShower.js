@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Dimensions} from 'react-native';
+import * as firebase from 'firebase';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -15,6 +16,13 @@ const ImageShower = ({
   buttonText,
   buttonOnPress,
 }) => {
+  const [flag, setflag] = useState(false);
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) setflag(true);
+    });
+  }, []);
   return (
     <View style={backgroundStyle}>
       <View style={styles.viewStyle}>
@@ -23,16 +31,17 @@ const ImageShower = ({
       </View>
 
       <Image source={image} style={styles.imageStyle} />
-
-      <Button
-        buttonStyle={styles.buttonStyle}
-        title={buttonText}
-        titleStyle={styles.titleStyle}
-        onPress={() => {
-          // console.log(buttonOnPress);
-          buttonOnPress();
-        }}
-      />
+      {!flag && (
+        <Button
+          buttonStyle={styles.buttonStyle}
+          title={buttonText}
+          titleStyle={styles.titleStyle}
+          onPress={() => {
+            // console.log(buttonOnPress);
+            buttonOnPress();
+          }}
+        />
+      )}
     </View>
   );
 };

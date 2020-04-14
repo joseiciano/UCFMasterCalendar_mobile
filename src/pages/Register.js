@@ -109,12 +109,7 @@ export default class Register extends Component {
                 titleStyle={styles.titleStyle}
                 onPress={this.handleRegister}
               />
-              <Button
-                buttonStyle={styles.buttonStyle}
-                title={'Need an account?'}
-                titleStyle={styles.titleStyle}
-                onPress={this.redirectLogin}
-              />
+
               <Button
                 buttonStyle={styles.buttonStyle}
                 title={'Need an account?'}
